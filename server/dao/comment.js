@@ -27,6 +27,12 @@ class CommentDAO {
             .whereIn('book_id', book_ids)
             .select('*');
     }
+
+    deleteAllCommentsForBook = (book_id) => {
+        return db('comment')
+            .del()
+            .where({book_id});
+    }
 }
 
 module.exports = new CommentDAO();

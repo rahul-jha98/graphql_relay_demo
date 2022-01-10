@@ -17,6 +17,17 @@ class UserService {
     getAllUsers = async (searchTerm, authorOnly) => userDAO.fetchAllUsers(searchTerm, authorOnly);
 
     usersWithIds = async (userIds) => userDAO.fetchUsersWithIds(userIds);
+
+    addUser = async (user_id, password, name, is_author) => {
+        const [user] = await userDAO.insertUser(user_id, password, name, is_author);
+        console.log(user.created_at);
+        return user;
+    };
+
+    removeUser = async (user_id) => {
+        const rowsDeleted = await userDAO.deleteUser(user_id);
+        return rowsDeleted === 1;
+    }
 }
 
 module.exports = new UserService();

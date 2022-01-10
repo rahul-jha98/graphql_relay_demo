@@ -19,7 +19,7 @@ const isOnlyIdQueried = (info, idFieldValue) => {
     });
 }
 
-const resolvers = {
+const queryResolvers = {
     Query: {
         isOnline: () => true,
         timer: timerResolver,
@@ -77,6 +77,7 @@ const resolvers = {
         }
     },
     Comment: {
+        timestamp: (comment) => comment.created_at,
         // Resolver to populate user field of a comment
         user: (comment, _, context, info) => {
             if (isOnlyIdQueried(info, 'id')) {
@@ -109,4 +110,14 @@ const resolvers = {
     },
 };
 
-module.exports = resolvers;
+const mutationResolvers = {
+    Mutation: {
+        addUser: (_, args) => userResolver.addUser(args),
+        removeUser: (_, args) => userResolver.removeUser(args),
+
+        addBook: (_, args) => bookResolver.addBook(args),
+        removeBook: (_, args) => bookResolver.removeBook(args),
+    }
+}
+
+module.exports = { ...queryResolvers, ...mutationResolvers };

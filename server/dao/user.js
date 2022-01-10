@@ -37,6 +37,25 @@ class UserDAO {
             .whereIn('id', userIds)
             .select('*');
     }
+
+    insertUser = (id, password, name, is_author) => {
+        return db('myuser')
+            .insert({
+                id, 
+                password,
+                name,
+                is_author
+            })
+            .returning('*');
+    }
+
+    deleteUser = (id) => {
+        return db('myuser')
+            .del()
+            .where({
+                id
+            })
+    }
 }
 
 module.exports = new UserDAO();
