@@ -116,7 +116,10 @@ const mutationResolvers = {
         removeUser: (_, args) => userResolver.removeUser(args),
 
         addBook: (_, args) => bookResolver.addBook(args),
-        removeBook: (_, args) => bookResolver.removeBook(args),
+        removeBook: (_, args) => bookResolver.removeBook(args), 
+
+        addComment: (_, args) => commentResolver.addComment(args),
+        removeComment: (_, args) => commentResolver.removeBook(args),
     }
 }
 

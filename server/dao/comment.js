@@ -33,6 +33,22 @@ class CommentDAO {
             .del()
             .where({book_id});
     }
+
+    insertComment = (user_id, book_id, message) => {
+        return db('comment')
+            .insert({
+                book_id,
+                user_id,
+                message
+            })
+            .returning('*');
+    }
+
+    deleteComment = (id) => {
+        return db('comment')
+            .del()
+            .where({id});
+    }
 }
 
 module.exports = new CommentDAO();

@@ -20,7 +20,6 @@ class UserService {
 
     addUser = async (user_id, password, name, is_author) => {
         const [user] = await userDAO.insertUser(user_id, password, name, is_author);
-        console.log(user.created_at);
         return user;
     };
 
