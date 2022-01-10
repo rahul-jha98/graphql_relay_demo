@@ -13,6 +13,8 @@ const schema = makeExecutableSchema({typeDefs, resolvers});
 const app = express();
 app.use(cors());
 
+const PORT = process.env.PORT || 8080;
+
 app.use('/graphql', graphqlHTTP({
     schema,
     graphiql: true,
@@ -24,6 +26,6 @@ app.use('/graphql', graphqlHTTP({
     },
 }));
 
-app.listen(8085, () => {
-    console.log("Started server on port 8080");
+app.listen(PORT, () => {
+    console.log(`Server listening at port ${PORT}`);
 });

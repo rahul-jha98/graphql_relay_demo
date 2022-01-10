@@ -3,6 +3,7 @@
 // npx knex migrate:make init --migrations-directory db/migrations  
 
 module.exports = {
+  development: {
     client: 'postgresql',
     connection: {
       database: 'db',
@@ -17,4 +18,19 @@ module.exports = {
     migrations: {
       tableName: 'knex_migrations'
     },
+  },
+  production: {
+    client: 'postgresql',
+    connection:  {
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
+    },
+    pool: {
+      min: 2,
+      max: 15
+    },
+    migrations: {
+      tableName: 'knex_migrations'
+    },
+  }
 };

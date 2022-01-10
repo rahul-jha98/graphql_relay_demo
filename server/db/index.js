@@ -1,11 +1,15 @@
 const knex = require('knex');
 const knexfile = require('./knexfile');
 
-const db = knex(knexfile);
+var env = process.env.NODE_ENV || 'development';
 
-db.on('query', (data) => {
-    console.log();
-    console.log(data.sql, data.bindings);
-});
+const db = knex(env === 'development' ? knexfile.development : knexfile.production);
+
+if (env === 'development') {
+    db.on('query', (data) => {
+        console.log();
+        console.log(data.sql, data.bindings);
+    });
+}
 
 module.exports = db;
