@@ -15,6 +15,18 @@ class CommentDAO {
             })
             .select('*');
     }
+
+    fetchAllCommentsFromUserIds = (user_ids) => {
+        return db('comment')
+            .whereIn('user_id', user_ids)
+            .select('*');
+    }
+
+    fetchAllCommentsForBookIds = (book_ids) => {
+        return db('comment')
+            .whereIn('book_id', book_ids)
+            .select('*');
+    }
 }
 
 module.exports = new CommentDAO();

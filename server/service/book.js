@@ -16,6 +16,10 @@ class BookService {
     getAllBooksFromAuthor = async (author_id) => {
         return bookDAO.fetchAllBooksFromAuthor(author_id);
     }
+
+    booksFromAuthors = async (author_ids) => bookDAO.fetchBooksFromAuthors(author_ids);
+
+    booksWithIds = async (book_ids) => bookDAO.fetchBooksWithIds(book_ids);
 }
 
 module.exports = new BookService();

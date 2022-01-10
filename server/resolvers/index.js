@@ -42,20 +42,39 @@ const resolvers = {
             if (isOnlyIdQueried(info, 'id')) {
                 return { id: book.author_id };
             }
-            
-            return userResolver.getUser({ user_id: book.author_id });
+            const { dataLoaders } = context;
+            const { userDataLoader } = dataLoaders;
+            return userDataLoader.load(book.author_id);
+            // return userResolver.getUser({ user_id: book.author_id });
         },
 
         comments: (book, { user_id }, context) => {
-            return commentResolver.getComments({ user_id, book_id: book.id });
+            if (user_id) {
+                return commentResolver.getComments({ user_id, book_id: book.id });
+            }
+            else {
+                const { dataLoaders } = context;
+                const { commentsByBookIdDataLoader } = dataLoaders;
+                return commentsByBookIdDataLoader.load(book.id);
+            }
         }
     },
     Author: {
         // Resolver to populate books field for an author
-        books: (author) => bookResolver.getBooks({author_id: author.id})
+        books: (author, _, context) => {
+            const { dataLoaders } = context;
+            const { booksByAuthorDataLoader } = dataLoaders;
+            return booksByAuthorDataLoader.load(author.id);
+            // return bookResolver.getBooks({author_id: author.id});
+        }
     },
     NormalUser: {
-        comments: (user) => commentResolver.getComments({ user_id: user.id })
+        comments: (user, _, context) =>  {
+            const { dataLoaders } = context;
+            const { commentsByUserIdDataLoader } = dataLoaders;
+            return commentsByUserIdDataLoader.load(user.id);
+            // commentResolver.getComments({ user_id: user.id });
+        }
     },
     Comment: {
         // Resolver to populate user field of a comment
@@ -63,7 +82,10 @@ const resolvers = {
             if (isOnlyIdQueried(info, 'id')) {
                 return { id: comment.user_id };
             }
-            return userResolver.getUser({ user_id: comment.user_id })
+            const { dataLoaders } = context;
+            const { userDataLoader } = dataLoaders;
+            return userDataLoader.load(comment.user_id);
+            // return userResolver.getUser({ user_id: comment.user_id })
         },
 
         // Resolver to populate book field of a comment
@@ -71,7 +93,10 @@ const resolvers = {
             if (isOnlyIdQueried(info, 'id')) {
                 return { id: comment.book_id };
             }
-            return bookResolver.getBook({ book_id: comment.book_id })
+            const { dataLoaders } = context;
+            const { bookDataLoader } = dataLoaders;
+            return bookDataLoader.load(comment.book_id);
+            // return bookResolver.getBook({ book_id: comment.book_id })
         },
     },
     User: {

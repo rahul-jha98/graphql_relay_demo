@@ -19,6 +19,18 @@ class BookDAO {
             .where({author_id})
             .select('*');
     }
+
+    fetchBooksFromAuthors = (author_ids) => {
+        return db('book')
+            .whereIn('author_id', author_ids)
+            .select('*');
+    }
+
+    fetchBooksWithIds = (book_ids) => {
+        return db('book')
+            .whereIn('id', book_ids)
+            .select('*');
+    }
 }
 
 module.exports = new BookDAO();

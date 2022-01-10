@@ -7,7 +7,7 @@ class UserDAO {
                 id: username, 
                 password
             })
-            .select('username');
+            .select('id');
     }
 
     fetchUser = (username) => {
@@ -29,6 +29,12 @@ class UserDAO {
                     queryBuilder.where({is_author: true})
                 }
             })
+            .select('*');
+    }
+
+    fetchUsersWithIds = (userIds) => {
+        return db('myuser')
+            .whereIn('id', userIds)
             .select('*');
     }
 }

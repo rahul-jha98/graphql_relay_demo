@@ -1,5 +1,4 @@
 const userService = require('../service/user');
-
 class UserResolver {
     validateUser = async ({ user_id, password}) => userService.validateUser(user_id, password);
 

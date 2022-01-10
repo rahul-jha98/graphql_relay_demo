@@ -14,9 +14,9 @@ class UserService {
         return user;
     }
 
-    getAllUsers = async (searchTerm, authorOnly) => {
-        return userDAO.fetchAllUsers(searchTerm, authorOnly);
-    }
+    getAllUsers = async (searchTerm, authorOnly) => userDAO.fetchAllUsers(searchTerm, authorOnly);
+
+    usersWithIds = async (userIds) => userDAO.fetchUsersWithIds(userIds);
 }
 
 module.exports = new UserService();
