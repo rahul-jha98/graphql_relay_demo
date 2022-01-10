@@ -1,4 +1,54 @@
+interface Node {
+  id: ID!
+}
+
+interface User {
+    id: ID!
+    username: String!
+    name: String!
+}
+
+type NormalUser implements Node & User {
+    id: ID!
+    username: String!
+    name: String!
+    comments: [Comment!]
+}
+
+type Author implements Node & User {
+    id: ID!
+    username: String!
+    name: String!
+    books: [Book!]
+}
+
+type Book implements Node {
+    id: ID!
+    name: String!
+    year: Int!
+    isbn: String!
+    author: Author!
+    comments(user_id: String): [Comment]! 
+}
+
+type Comment implements Node {
+    id: ID!
+    user: User!
+    message: String!
+    book: Book!
+}
+
+
 type Query {
     isOnline: Boolean
     timer(ms: Int!): Int!
+
+    validateUser(user_id: String!, password: String!): Boolean!
+    users(searchTerm: String, authorOnly: Boolean): [User!]
+    user(user_id: String!): User!
+
+    books(author_id: String): [Book!]
+    book(book_id: Int!): Book
+    
+    comments(book_id: String, user_id: String): [Comment!]
 }
