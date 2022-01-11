@@ -1,5 +1,4 @@
 const userDAO = require('../dao/user');
-
 class UserService {
     validateUser = async (username, password) => {
         const selectedRow = await userDAO.fetchUserWith(username, password);
@@ -14,7 +13,7 @@ class UserService {
         return user;
     }
 
-    getAllUsers = async (searchTerm, authorOnly) => userDAO.fetchAllUsers(searchTerm, authorOnly);
+    getUsers = async (searchTerm, authorOnly, paginatedProps) => userDAO.fetchAllUsers(searchTerm, authorOnly, paginatedProps);
 
     usersWithIds = async (userIds) => userDAO.fetchUsersWithIds(userIds);
 

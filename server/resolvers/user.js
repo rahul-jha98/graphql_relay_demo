@@ -1,10 +1,23 @@
 const userService = require('../service/user');
+const ConnectionHandler = require('./connectionhandler');
+
 class UserResolver {
+    constructor() {
+        this.connectionHandler = ConnectionHandler.withStartText('user');
+    }
+
     validateUser = async ({ user_id, password}) => userService.validateUser(user_id, password);
 
     getUser = async ({user_id}) => userService.getUser(user_id);
 
-    getAllUsers = async ({ searchTerm, authorOnly }) => userService.getAllUsers(searchTerm, authorOnly);
+    getPaginatedUsers = async ({ searchTerm, authorOnly, ...paginationProps }, maxPageSize = 10) => {
+        
+        const { pageSize, offset } = this.connectionHandler.getPaginationProps(paginationProps, maxPageSize);
+
+        const users = await userService.getUsers(searchTerm, authorOnly, { pageSize: pageSize + 1, offset: offset + 1 });
+
+        return this.connectionHandler.getPaginatedList(users, offset + 1, pageSize);
+    }
 
     addUser = async ({user_id, password, name, is_author}) => userService.addUser(user_id, password, name, is_author);
 

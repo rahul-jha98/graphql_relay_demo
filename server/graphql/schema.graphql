@@ -2,24 +2,46 @@ interface Node {
   id: ID!
 }
 
+type PageInfo {
+    endCursor: String
+    hasNextPage: Boolean!
+}
+
 interface User {
     id: ID!
-    username: String!
     name: String!
 }
 
 type NormalUser implements Node & User {
     id: ID!
-    username: String!
     name: String!
-    comments: [Comment!]
+    comments(first: Int): CommentConnection!
 }
 
 type Author implements Node & User {
     id: ID!
-    username: String!
     name: String!
-    books: [Book!]
+    books(first: Int): BookConnection!
+}
+
+type BookConnection {
+    pageInfo: PageInfo!
+    edges: [BookEdge!]
+}
+
+type BookEdge {
+    cursor: String!
+    node: Book!
+}
+
+type UserConnection {
+    pageInfo: PageInfo!
+    edges: [UserEdge!]
+}
+
+type UserEdge {
+    cursor: String!
+    node: User!
 }
 
 type Book implements Node {
@@ -28,7 +50,7 @@ type Book implements Node {
     year: Int!
     isbn: String!
     author: Author!
-    comments(user_id: String): [Comment]! 
+    comments(user_id: String, first: Int): CommentConnection!
 }
 
 type Comment implements Node {
@@ -37,6 +59,16 @@ type Comment implements Node {
     message: String!
     book: Book!
     timestamp: String!
+}
+
+type CommentConnection {
+    pageInfo: PageInfo!
+    edges: [CommentEdge!]
+}
+
+type CommentEdge {
+    cursor: String!
+    node: Comment!
 }
 
 type MutationResponse {
@@ -49,13 +81,13 @@ type Query {
     timer(ms: Int!): Int!
 
     validateUser(user_id: String!, password: String!): Boolean!
-    users(searchTerm: String, authorOnly: Boolean): [User!]
+    users(searchTerm: String, authorOnly: Boolean, first: Int, after: String): UserConnection!
     user(user_id: String!): User!
 
-    books(author_id: String): [Book!]
+    books(author_id: String, first: Int, after: String): BookConnection!
     book(book_id: Int!): Book
     
-    comments(book_id: String, user_id: String): [Comment!]
+    comments(book_id: String, user_id: String, first: Int, after: String): CommentConnection!
 }
 
 type Mutation {

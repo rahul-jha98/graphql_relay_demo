@@ -1,31 +1,46 @@
 const db = require('../db');
 
 class CommentDAO {
-    fetchComments = (user_id, book_id) => {
+    fetchComments = (user_id, book_id, {pageSize, endcursor} = {}) => {
         return db('comment')
             .modify((queryBuilder) => {
                 if (user_id && user_id !== '') {
                     queryBuilder.where({ user_id });
                 }
-            })
-            .modify((queryBuilder) => {
                 if (book_id && book_id !== '') {
                     queryBuilder.where({ book_id });
                 }
+                if (pageSize) {
+                    queryBuilder.limit(pageSize);
+                }
+                if (endcursor) {
+                    queryBuilder.where('created_at', '<', new Date(endcursor).toISOString());
+                }
             })
+            .orderBy('created_at', "desc")
             .select('*');
     }
 
-    fetchAllCommentsFromUserIds = (user_ids) => {
-        return db('comment')
-            .whereIn('user_id', user_ids)
-            .select('*');
+    fetchAllCommentsFromUserIds = (user_ids, pageSize) => {
+        const innerQuery = db.from('comment')
+                .whereIn('user_id', user_ids)
+
+        const tableNamePosition = innerQuery.search('comment');
+        const subquery = innerQuery.slice(tableNamePosition-1);
+        return db.select(db.raw(
+            `ranked_comment.* FROM (SELECT "comment".*, row_number() OVER (PARTITION BY user_id ORDER BY created_at DESC) 
+            FROM ?) ranked_comment WHERE row_number <= ?`, [db.raw(subquery), pageSize]));
     }
 
-    fetchAllCommentsForBookIds = (book_ids) => {
-        return db('comment')
-            .whereIn('book_id', book_ids)
-            .select('*');
+    fetchAllCommentsForBookIds = (book_ids, pageSize) => {
+        const innerQuery = db.from('comment')
+                .whereIn('book_id', book_ids).toString();
+
+        const tableNamePosition = innerQuery.search('comment');
+        const subquery = innerQuery.slice(tableNamePosition - 1);
+        return db.select(db.raw(
+            `ranked_comment.* FROM (SELECT "comment".*, row_number() OVER (PARTITION BY book_id ORDER BY created_at DESC) 
+            FROM ?) ranked_comment WHERE row_number <= ?`, [db.raw(subquery), pageSize]));
     }
 
     deleteAllCommentsForBook = (book_id) => {

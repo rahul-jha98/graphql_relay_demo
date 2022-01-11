@@ -9,15 +9,15 @@ class BookService {
         return book;
     }
 
-    getAllBooks = async () => {
-        return bookDAO.fetchAllBooks();
+    getAllBooks = async (paginatedProps) => {
+        return bookDAO.fetchAllBooks(paginatedProps);
     }
 
-    getAllBooksFromAuthor = async (author_id) => {
-        return bookDAO.fetchAllBooksFromAuthor(author_id);
+    getAllBooksFromAuthor = async (author_id, paginatedProps) => {
+        return bookDAO.fetchAllBooksFromAuthor(author_id, paginatedProps);
     }
 
-    booksFromAuthors = async (author_ids) => bookDAO.fetchBooksFromAuthors(author_ids);
+    booksFromAuthors = async (author_ids, pageSize) => bookDAO.fetchBooksFromAuthors(author_ids, pageSize);
 
     booksWithIds = async (book_ids) => bookDAO.fetchBooksWithIds(book_ids);
 

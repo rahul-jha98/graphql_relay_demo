@@ -26,15 +26,15 @@ const queryResolvers = {
 
         // Resolver for Users
         validateUser: (_, args) => userResolver.validateUser(args),
-        users: (_, args) => userResolver.getAllUsers(args),
+        users: (_, args) => userResolver.getPaginatedUsers(args),
         user: (_, { user_id }) => userResolver.getUser({ user_id: user_id }),
 
         // Resolver for Book based queries
-        books: (_, args) => bookResolver.getBooks(args),
+        books: (_, args) => bookResolver.getPaginatedBooks(args),
         book: (_, args) => bookResolver.getBook(args),
         
         // Resolver for Comments related queries
-        comments: (_, args) => commentResolver.getComments(args),
+        comments: (_, args) => commentResolver.getPaginatedComments(args),
     },
     Book: {
         // Resolver to populate author field in books
@@ -48,31 +48,36 @@ const queryResolvers = {
             // return userResolver.getUser({ user_id: book.author_id });
         },
 
-        comments: (book, { user_id }, context) => {
+        comments: (book, { user_id, first }, context) => {
             if (user_id) {
-                return commentResolver.getComments({ user_id, book_id: book.id });
+                // Since we know user_id and book_id combination has to be unique in the db
+                // we wil pass max page size here as 1
+                return commentResolver.getPaginatedComments({ user_id, book_id: book.id, first }, 1);
             }
             else {
                 const { dataLoaders } = context;
                 const { commentsByBookIdDataLoader } = dataLoaders;
-                return commentsByBookIdDataLoader.load(book.id);
+                const pageSize = first && first <= 10 ? first : 10;
+                return commentsByBookIdDataLoader.load(`${pageSize}-${book.id}`);
             }
         }
     },
     Author: {
         // Resolver to populate books field for an author
-        books: (author, _, context) => {
+        books: (author, {first}, context) => {
             const { dataLoaders } = context;
             const { booksByAuthorDataLoader } = dataLoaders;
-            return booksByAuthorDataLoader.load(author.id);
+            const pageSize = first && first <= 10 ? first : 10;
+            return booksByAuthorDataLoader.load(`${pageSize}-${author.id}`);
             // return bookResolver.getBooks({author_id: author.id});
         }
     },
     NormalUser: {
-        comments: (user, _, context) =>  {
+        comments: (user, { first }, context) =>  {
             const { dataLoaders } = context;
             const { commentsByUserIdDataLoader } = dataLoaders;
-            return commentsByUserIdDataLoader.load(user.id);
+            const pageSize = first && first <= 10 ? first : 10;
+            return commentsByUserIdDataLoader.load(`${pageSize}-${user.id}`);
             // commentResolver.getComments({ user_id: user.id });
         }
     },

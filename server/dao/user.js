@@ -16,7 +16,7 @@ class UserDAO {
             .select('*');
     }
 
-    fetchAllUsers = (searchTerm, authorOnly) => {
+    fetchAllUsers = (searchTerm, authorOnly, {pageSize, offset} = {}) => {
         return db('myuser')
             .modify((queryBuilder) => {
                 if (searchTerm && searchTerm !== '') {
@@ -27,6 +27,14 @@ class UserDAO {
             .modify((queryBuilder) => {
                 if (authorOnly) {
                     queryBuilder.where({is_author: true})
+                }
+            })
+            .modify((queryBuilder) => {
+                if (pageSize) {
+                    queryBuilder.limit(pageSize);
+                }
+                if (offset) {
+                    queryBuilder.offset(offset);
                 }
             })
             .select('*');
