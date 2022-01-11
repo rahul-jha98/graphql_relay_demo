@@ -1,0 +1,117 @@
+interface Node {
+  id: ID!
+}
+
+type PageInfo {
+    endCursor: String
+    hasNextPage: Boolean!
+}
+
+interface User {
+    "User ID of user"
+    id: ID!
+
+    "name of the user"
+    name: String!
+}
+
+type NormalUser implements Node & User {
+    "User ID of user"
+    id: ID!
+    "Name of the user"
+    name: String!
+    "Connection object for comments made by user maximum 10 comments"
+    comments(first: Int): CommentConnection!
+}
+
+type Author implements Node & User {
+    "User ID of user. Also referred as Author ID"
+    id: ID!
+    "Name of the user"
+    name: String!
+    "Connection object for books by author maximum 10 books"
+    books(first: Int): BookConnection!
+}
+
+type BookConnection {
+    pageInfo: PageInfo!
+    edges: [BookEdge!]
+}
+
+type BookEdge {
+    cursor: String!
+    node: Book!
+}
+
+type UserConnection {
+    pageInfo: PageInfo!
+    edges: [UserEdge!]
+}
+
+type UserEdge {
+    cursor: String!
+    node: User!
+}
+
+type Book implements Node {
+    "Book ID"
+    id: ID!
+    name: String!
+    year: Int!
+    isbn: String!
+    author: Author!
+    "Connection object for comments for the book"
+    comments(
+        "search comments from a specific user_id"
+        user_id: String, 
+        first: Int): CommentConnection!
+}
+
+type Comment implements Node {
+    "Comment ID"
+    id: ID!
+    user: User!
+    message: String!
+    book: Book!
+    timestamp: String!
+}
+
+type CommentConnection {
+    pageInfo: PageInfo!
+    edges: [CommentEdge!]
+}
+
+type CommentEdge {
+    cursor: String!
+    node: Comment!
+}
+
+type MutationResponse {
+    success: Boolean!
+    messages: [String!]
+}
+
+type Query {
+    isOnline: Boolean
+    timer(ms: Int!): Int!
+
+    validateUser(user_id: String!, password: String!): Boolean!
+    users(searchTerm: String, authorOnly: Boolean, first: Int, after: String): UserConnection!
+    user(user_id: String!): User!
+
+    books(author_id: String, first: Int, after: String): BookConnection!
+    book(book_id: Int!): Book
+    
+    comments(book_id: String, user_id: String, first: Int, after: String): CommentConnection!
+}
+
+type Mutation {
+    addUser(user_id: String!, password: String!, name: String!, is_author: Boolean!): User!
+    removeUser(user_id: String!): MutationResponse!
+
+    addBook(name: String!, year: Int!, isbn: String!, author: String!): Book!
+    removeBook(id: String!): MutationResponse!
+
+    addComment(book_id: ID!, user_id: String!, message: String!): Comment!
+    removeComment(id: ID!): MutationResponse!
+}

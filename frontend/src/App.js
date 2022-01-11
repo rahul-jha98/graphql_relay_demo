@@ -1,9 +1,25 @@
+import { useEffect } from 'react';
+import { graphql, useQueryLoader } from 'react-relay';
 import './App.css';
+import MainUI from './ui';
 
-function App() {
+const AppIsOnlineQuery = graphql`
+  query AppIsOnlineQuery {
+    isOnline
+  }
+`;
+
+const App = () => {
+  const [isOnlineQueryRef, load] = useQueryLoader(AppIsOnlineQuery);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
   return (
     <div className="App">
-      Hello
+      { isOnlineQueryRef !== null ? <MainUI isOnlineQueryRef={isOnlineQueryRef} /> : null }
+      
     </div>
   );
 }
