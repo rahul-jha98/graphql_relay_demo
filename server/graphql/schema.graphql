@@ -8,19 +8,28 @@ type PageInfo {
 }
 
 interface User {
+    "User ID of user"
     id: ID!
+
+    "name of the user"
     name: String!
 }
 
 type NormalUser implements Node & User {
+    "User ID of user"
     id: ID!
+    "Name of the user"
     name: String!
+    "Connection object for comments made by user maximum 10 comments"
     comments(first: Int): CommentConnection!
 }
 
 type Author implements Node & User {
+    "User ID of user. Also referred as Author ID"
     id: ID!
+    "Name of the user"
     name: String!
+    "Connection object for books by author maximum 10 books"
     books(first: Int): BookConnection!
 }
 
@@ -45,15 +54,21 @@ type UserEdge {
 }
 
 type Book implements Node {
+    "Book ID"
     id: ID!
     name: String!
     year: Int!
     isbn: String!
     author: Author!
-    comments(user_id: String, first: Int): CommentConnection!
+    "Connection object for comments for the book"
+    comments(
+        "search comments from a specific user_id"
+        user_id: String, 
+        first: Int): CommentConnection!
 }
 
 type Comment implements Node {
+    "Comment ID"
     id: ID!
     user: User!
     message: String!

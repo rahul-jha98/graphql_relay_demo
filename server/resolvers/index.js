@@ -57,7 +57,7 @@ const queryResolvers = {
             else {
                 const { dataLoaders } = context;
                 const { commentsByBookIdDataLoader } = dataLoaders;
-                const pageSize = first && first <= 10 ? first : 10;
+                const pageSize = first && first <= 5 ? first : 5;
                 return commentsByBookIdDataLoader.load(`${pageSize}-${book.id}`);
             }
         }
@@ -69,7 +69,6 @@ const queryResolvers = {
             const { booksByAuthorDataLoader } = dataLoaders;
             const pageSize = first && first <= 10 ? first : 10;
             return booksByAuthorDataLoader.load(`${pageSize}-${author.id}`);
-            // return bookResolver.getBooks({author_id: author.id});
         }
     },
     NormalUser: {
@@ -78,7 +77,6 @@ const queryResolvers = {
             const { commentsByUserIdDataLoader } = dataLoaders;
             const pageSize = first && first <= 10 ? first : 10;
             return commentsByUserIdDataLoader.load(`${pageSize}-${user.id}`);
-            // commentResolver.getComments({ user_id: user.id });
         }
     },
     Comment: {
@@ -91,7 +89,6 @@ const queryResolvers = {
             const { dataLoaders } = context;
             const { userDataLoader } = dataLoaders;
             return userDataLoader.load(comment.user_id);
-            // return userResolver.getUser({ user_id: comment.user_id })
         },
 
         // Resolver to populate book field of a comment
@@ -102,7 +99,6 @@ const queryResolvers = {
             const { dataLoaders } = context;
             const { bookDataLoader } = dataLoaders;
             return bookDataLoader.load(comment.book_id);
-            // return bookResolver.getBook({ book_id: comment.book_id })
         },
     },
     User: {
