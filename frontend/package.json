@@ -47,6 +47,7 @@
     "react-error-boundary": "^3.1.4",
     "react-refresh": "^0.11.0",
     "react-relay": "^13.0.1",
+    "react-router-dom": "^6.2.1",
     "resolve": "^1.20.0",
     "resolve-url-loader": "^4.0.0",
     "sass-loader": "^12.3.0",
@@ -64,7 +65,7 @@
   "scripts": {
     "relay": "relay-compiler",
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "build": "relay-compiler && node scripts/build.js",
     "test": "node scripts/test.js"
   },
   "browserslist": {

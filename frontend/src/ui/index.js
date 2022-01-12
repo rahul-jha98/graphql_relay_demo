@@ -1,8 +1,7 @@
 import { graphql, usePreloadedQuery } from "react-relay";
-import SuspenseDemo from "./suspensedemo";
-import QuerySchedulingDemo from './queryscheduling';
+import MainContent from './main';
 
-const MainUI = ({ isOnlineQueryRef } ) => {
+export default ({ isOnlineQueryRef } ) => {
     const data = usePreloadedQuery(graphql`
             query uiIsOnlineQuery {
                 isOnline
@@ -10,7 +9,5 @@ const MainUI = ({ isOnlineQueryRef } ) => {
         `, isOnlineQueryRef);
     console.log(data);
     return data.isOnline ? 
-        <QuerySchedulingDemo /> : "Offline";
+        <MainContent /> : "Offline";
 }
-
-export default MainUI;
