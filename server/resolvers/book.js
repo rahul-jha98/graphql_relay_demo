@@ -4,7 +4,7 @@ class BookResolver {
     constructor() {
         this.connectionHandler = ConnectionHandler.withStartText('book');
     }
-    getBook = async ({ book_id }) => bookService.getBookWithId(book_id);
+    getBook = async ({ id }) => bookService.getBookWithId(id);
 
     getBooks = async ({ author_id }) => {
         if (author_id)

@@ -24,7 +24,7 @@ export default ({ timeArray, label, isShuffling }) => {
                 <Stack direction="column" spacing={2} width={200}>
                     <Suspense fallback={<Fallback />}>
                         {timeArray.map(time => {
-                                return <TimerButton timeInMs={time}/>;
+                                return <TimerButton timeInMs={time} key={time}/>;
                             }
                         )}
                     </Suspense>

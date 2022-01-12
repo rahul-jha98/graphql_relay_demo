@@ -126,19 +126,19 @@ type Query {
 
     node(id: ID!): Node!
 
-    validateUser(user_id: ID!, password: String!): Boolean!
+    validateUser(id: ID!, password: String!): Boolean!
     users(searchTerm: String, authorOnly: Boolean, first: Int, after: String): UserConnection!
-    user(user_id: ID!): User!
+    user(id: ID!): User!
 
     books(author_id: ID, first: Int, after: String): BookConnection!
-    book(book_id: ID!): Book
+    book(id: ID!): Book
     
     comments(book_id: ID, user_id: ID, first: Int, after: String): CommentConnection!
 }
 
 type Mutation {
-    addUser(user_id: ID!, password: String!, name: String!, is_author: Boolean!): UserMutationResponse!
-    removeUser(user_id: ID!): MutationResponse!
+    addUser(id: ID!, password: String!, name: String!, is_author: Boolean!): UserMutationResponse!
+    removeUser(id: ID!): MutationResponse!
 
     addBook(name: String!, description: String!, year: Int!, isbn: String!, author: String!): BookMutationResponse!
     updateBook(id: ID!, payload: UpdateBookInput!): BookMutationResponse!

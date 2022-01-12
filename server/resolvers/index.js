@@ -23,14 +23,14 @@ const nodeResolver = ({ id }) => {
     const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
     if (id.startsWith('comment:')) {
         if (regexExp.test(id.slice('comment:'.length))) {
-            return commentResolver.getBook({id: id});
+            return commentResolver.getBook({ id });
         }
     } else if (id.startsWith('book:')) {
         if (regexExp.test(id.slice('book:'.length))) {
-            return bookResolver.getBook({book_id: id});
+            return bookResolver.getBook({ id });
         }
     }
-    return userResolver.getUser({ user_id: id});
+    return userResolver.getUser({ id });
 }
 
 const queryResolvers = {
@@ -43,7 +43,7 @@ const queryResolvers = {
         // Resolver for Users
         validateUser: (_, args) => userResolver.validateUser(args),
         users: (_, args) => userResolver.getPaginatedUsers(args),
-        user: (_, { user_id }) => userResolver.getUser({ user_id: user_id }),
+        user: (_, args) => userResolver.getUser(args),
 
         // Resolver for Book based queries
         books: (_, args) => bookResolver.getPaginatedBooks(args),

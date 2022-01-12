@@ -6,9 +6,9 @@ class UserResolver {
         this.connectionHandler = ConnectionHandler.withStartText('user');
     }
 
-    validateUser = async ({ user_id, password}) => userService.validateUser(user_id, password);
+    validateUser = async ({ id, password}) => userService.validateUser(id, password);
 
-    getUser = async ({user_id}) => userService.getUser(user_id);
+    getUser = async ({id}) => userService.getUser(id);
 
     getPaginatedUsers = async ({ searchTerm, authorOnly, ...paginationProps }, maxPageSize = 10) => {
         
@@ -19,19 +19,19 @@ class UserResolver {
         return this.connectionHandler.getPaginatedList(users, offset + 1, pageSize);
     }
 
-    addUser = async ({user_id, password, name, is_author}) => {
+    addUser = async ({id, password, name, is_author}) => {
         try {
-            const user = await userService.addUser(user_id, password, name, is_author);
+            const user = await userService.addUser(id, password, name, is_author);
             return { success: true, user };
         }
         catch (err) {
-            return { success: false, mesasges: [err.message] }
+            return { success: false, messages: [err.message] }
         }
     }
 
-    removeUser = async ({user_id}) => {
+    removeUser = async ({id}) => {
         try {
-            const isDeleteSuccessful = await userService.removeUser(user_id);
+            const isDeleteSuccessful = await userService.removeUser(id);
             return { success: isDeleteSuccessful, messages: isDeleteSuccessful ? [] : ['User with given id does not exist'] };
         }
         catch (err) {
