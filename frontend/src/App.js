@@ -1,5 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { graphql, useQueryLoader } from 'react-relay';
+import { ErrorBoundary } from 'react-error-boundary';
+
 import './App.css';
 import MainUI from './ui';
 
@@ -16,10 +18,14 @@ const App = () => {
     load();
   }, [load]);
 
+  if (isOnlineQueryRef === null) return null; 
   return (
     <div className="App">
-      { isOnlineQueryRef !== null ? <MainUI isOnlineQueryRef={isOnlineQueryRef} /> : null }
-      
+      <ErrorBoundary fallback={<h1>Something went wrong</h1>}>
+        <Suspense fallback={<h1>Loading</h1>}>
+          <MainUI isOnlineQueryRef={isOnlineQueryRef}/>
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }
