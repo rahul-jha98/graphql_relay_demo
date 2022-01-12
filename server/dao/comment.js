@@ -23,7 +23,7 @@ class CommentDAO {
 
     fetchAllCommentsFromUserIds = (user_ids, pageSize) => {
         const innerQuery = db.from('comment')
-                .whereIn('user_id', user_ids)
+                .whereIn('user_id', user_ids).toString();
 
         const tableNamePosition = innerQuery.search('comment');
         const subquery = innerQuery.slice(tableNamePosition-1);

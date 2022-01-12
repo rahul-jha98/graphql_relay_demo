@@ -19,10 +19,26 @@ const isOnlyIdQueried = (info, idFieldValue) => {
     });
 }
 
+const nodeResolver = ({ id }) => {
+    const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+    if (id.startsWith('comment:')) {
+        if (regexExp.test(id.slice('comment:'.length))) {
+            return commentResolver.getBook({id: id});
+        }
+    } else if (id.startsWith('book:')) {
+        if (regexExp.test(id.slice('book:'.length))) {
+            return bookResolver.getBook({book_id: id});
+        }
+    }
+    return userResolver.getUser({ user_id: id});
+}
+
 const queryResolvers = {
     Query: {
         isOnline: () => true,
         timer: timerResolver,
+
+        node: (_, args) => nodeResolver(args),
 
         // Resolver for Users
         validateUser: (_, args) => userResolver.validateUser(args),
@@ -37,6 +53,7 @@ const queryResolvers = {
         comments: (_, args) => commentResolver.getPaginatedComments(args),
     },
     Book: {
+        id: (book) => `book:${book.id}`,
         // Resolver to populate author field in books
         author: (book, _, context, info) => {
             if (isOnlyIdQueried(info, 'id')) {
@@ -80,6 +97,7 @@ const queryResolvers = {
         }
     },
     Comment: {
+        id: (book) => `comment:${book.id}`,
         timestamp: (comment) => comment.created_at,
         // Resolver to populate user field of a comment
         user: (comment, _, context, info) => {
@@ -109,6 +127,22 @@ const queryResolvers = {
             return 'NormalUser';
         } 
     },
+    Node: {
+        __resolveType: (obj) => {
+            if (obj.message) {
+                return 'Comment';
+            }
+            else if (obj.year) {
+                return 'Book';
+            } else {
+                if (obj.is_author) {
+                    return 'Author';
+                } else {
+                    return 'NormalUser';
+                }
+            }
+        }
+    }
 };
 
 const mutationResolvers = {
@@ -120,7 +154,7 @@ const mutationResolvers = {
         removeBook: (_, args) => bookResolver.removeBook(args), 
 
         addComment: (_, args) => commentResolver.addComment(args),
-        removeComment: (_, args) => commentResolver.removeBook(args),
+        removeComment: (_, args) => commentResolver.removeComment(args),
     }
 }
 

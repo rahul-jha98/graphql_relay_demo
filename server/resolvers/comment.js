@@ -9,7 +9,16 @@ class CommentResolver {
     }
     getComments = async ({ user_id, book_id }) => commentService.getComments(user_id, book_id);
 
-    addComment = async ({message, user_id, book_id}) => commentService.addComment(user_id, book_id, message);
+    addComment = async ({message, user_id, book_id}) => {
+        try {
+            const comment = await commentService.addComment(user_id, book_id, message);
+            return { success: true, comment };
+        }
+        catch (err) {
+            return { success: false, mesasges: [err.message] }
+        }
+    }
+    
 
     getPaginatedComments = async ({ user_id, book_id, ...paginationProps }, maxPageSize = 10) => {
         const { pageSize, offset } = this.connectionHandler.getPaginationProps(paginationProps, maxPageSize, null);
@@ -19,7 +28,7 @@ class CommentResolver {
         return this.connectionHandler.getPaginatedList(comments, 0, pageSize);
     }
 
-    async = async ({id}) => {
+    removeComment = async ({id}) => {
         try {
             const isDeleteSuccessful = await commentService.deleteComment(id);
             return { success: isDeleteSuccessful, messages: isDeleteSuccessful ? [] : ['Comment with given id does not exist'] };

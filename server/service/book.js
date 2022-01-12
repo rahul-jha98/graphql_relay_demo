@@ -1,8 +1,11 @@
 const bookDAO = require('../dao/book');
 const commentDAO = require('../dao/comment');
 class BookService {
+    prefix = 'book:'
+    sanitizeId = (bookId) => bookId.slice(this.prefix.length)
+
     getBookWithId = async (bookId) => {
-        const [book] = await bookDAO.fetchBookWithId(bookId);
+        const [book] = await bookDAO.fetchBookWithId(this.sanitizeId(bookId));
         if (!book) {
             throw new Error(`Book with id ${bookId} does not exist`);
         }
@@ -19,16 +22,17 @@ class BookService {
 
     booksFromAuthors = async (author_ids, pageSize) => bookDAO.fetchBooksFromAuthors(author_ids, pageSize);
 
-    booksWithIds = async (book_ids) => bookDAO.fetchBooksWithIds(book_ids);
+    booksWithIds = async (book_ids) => bookDAO.fetchBooksWithIds(book_ids.map((book_id) => this.sanitizeId(book_id)));
 
-    addBook = async (name, year, isbn, author_id) => {
-        const [book] = await bookDAO.insertBook(name, year, isbn, author_id);
+    addBook = async (name, description, year, isbn, author_id) => {
+        const [book] = await bookDAO.insertBook(name, description, year, isbn, author_id);
         return book;
     }
 
     deleteBook = async (id) => {
-        await commentDAO.deleteAllCommentsForBook(id);
-        const rowsDeleted = await bookDAO.deleteBook(id);
+        const bookId = this.sanitizeId(id);
+        await commentDAO.deleteAllCommentsForBook(bookId);
+        const rowsDeleted = await bookDAO.deleteBook(bookId);
         return rowsDeleted === 1;
     };
 }

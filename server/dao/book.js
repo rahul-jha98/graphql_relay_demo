@@ -52,10 +52,11 @@ class BookDAO {
             .select('*');
     }
 
-    insertBook = (name, year, isbn, author_id) => {
+    insertBook = (name, description, year, isbn, author_id) => {
         return db('book')
             .insert({
                 name,
+                description,
                 year,
                 isbn,
                 author_id

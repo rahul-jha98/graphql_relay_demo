@@ -16,7 +16,6 @@ class BookResolver {
     getPaginatedBooks = async ({ author_id, ...paginationProps }, maxPageSize = 20) => {
         const { pageSize, offset } = this.connectionHandler.getPaginationProps(paginationProps, maxPageSize);
         let books = []
-        console.log(pageSize, offset);  
         if (author_id)
             books = await bookService.getAllBooksFromAuthor(author_id, { pageSize: pageSize + 1, offset: offset + 1 });
         else 
@@ -25,7 +24,15 @@ class BookResolver {
         return this.connectionHandler.getPaginatedList(books, offset + 1, pageSize);
     }
 
-    addBook = ({name, year, isbn, author }) => bookService.addBook(name, year, isbn, author);
+    addBook = async ({name, year, isbn, author, description }) => {
+        try {
+            const book = await bookService.addBook(name, description, year, isbn, author);
+            return { success: true, book };
+        }
+        catch (err) {
+            return { success: false, mesasges: [err.message] }
+        }
+    }
 
     removeBook = async ({id}) => {
         try {

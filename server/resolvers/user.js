@@ -19,7 +19,15 @@ class UserResolver {
         return this.connectionHandler.getPaginatedList(users, offset + 1, pageSize);
     }
 
-    addUser = async ({user_id, password, name, is_author}) => userService.addUser(user_id, password, name, is_author);
+    addUser = async ({user_id, password, name, is_author}) => {
+        try {
+            const user = await userService.addUser(user_id, password, name, is_author);
+            return { success: true, user };
+        }
+        catch (err) {
+            return { success: false, mesasges: [err.message] }
+        }
+    }
 
     removeUser = async ({user_id}) => {
         try {
