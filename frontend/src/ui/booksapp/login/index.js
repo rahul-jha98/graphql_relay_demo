@@ -1,11 +1,9 @@
 import { useState } from "react"
 import Login from './login';
 import Signup from './signup';
-import { useNavigate } from "react-router-dom";
 
-export default () => {
+export default ({ setUserId }) => {
     const [showingLogin, setShowingLogin] = useState(true);
-    const navigate = useNavigate();
 
     const showLogin = () => {
         setShowingLogin(true);
@@ -17,7 +15,7 @@ export default () => {
 
     const onSuccess = (id) => {
         window.sessionStorage.setItem('userid', id);
-        navigate('/bookapp', { replace: true });
+        setUserId(id);
     }
 
     return showingLogin ? 

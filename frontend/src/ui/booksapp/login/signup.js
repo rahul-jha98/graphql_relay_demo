@@ -13,7 +13,7 @@ import Banner from './banner';
 
 const AddUserQuery = graphql`
   mutation signupMutation($user_id: ID!, $password: String!, $name: String!, $is_author: Boolean!) {
-    addUser(user_id: $user_id, 
+    addUser(id: $user_id, 
             password: $password,
             name: $name,
             is_author: $is_author) {
@@ -122,7 +122,7 @@ export default ({ showLogin }) => {
                     color="primary" 
                     onClick={showLogin}
                     sx={{cursor: "pointer" }}>
-                        Login Instead
+                        Go to Login Screen
                 </Typography>
             </Stack>
         </form>

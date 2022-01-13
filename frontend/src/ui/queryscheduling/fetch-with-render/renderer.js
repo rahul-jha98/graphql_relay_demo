@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import {graphql, useLazyLoadQuery, usePreloadedQuery}  from 'react-relay';
+import {graphql, usePreloadedQuery}  from 'react-relay';
 import Typography from '@mui/material/Typography';
 
 export default ({ startTime, queryReference }) => {

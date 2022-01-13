@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import LoginPage from './login';
+import View from './view';
 
 export default () => {
-    const userid = window.sessionStorage.getItem('userid');
+    const [userid, setUserId] = useState(window.sessionStorage.getItem('userid'));
     if (!userid) {
-        return <LoginPage />
+        return <LoginPage setUserId={setUserId} />
     }
-    return `${userid} Hello`
+    return <View userid={userid} />
 }

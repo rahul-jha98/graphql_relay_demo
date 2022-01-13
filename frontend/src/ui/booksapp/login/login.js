@@ -9,7 +9,7 @@ import Banner from './banner';
 
 const validateLoginQuery = graphql`
   query loginQuery($user_id: ID!, $password: String!) {
-      validateUser(user_id: $user_id, password: $password)
+      validateUser(id: $user_id, password: $password)
   }
 `;
 
@@ -36,15 +36,13 @@ export default ({ showRegister, onSuccess }) => {
             start: () => {
                 setIsInFlight(true);
             },
-            next: (data) => {
-                setIsInFlight(false);
-                
+            next: (data) => {       
                 if (data.validateUser) {
                     onSuccess(username);
                 } else {
                     setErrorMessage("Login failed");
                 }
-
+                setIsInFlight(false);
                 querySubscriptionRef.current = null;
             },
             error: (error) => {
@@ -106,7 +104,7 @@ export default ({ showRegister, onSuccess }) => {
                     color="primary" 
                     onClick={showRegister}
                     sx={{cursor: "pointer" }}>
-                        Register Instead
+                        Go to Register Screen
                 </Typography>       
             </Stack>
         </form>
