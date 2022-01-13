@@ -25,20 +25,15 @@ class BookResolver {
     }
 
     addBook = async ({name, year, isbn, author, description }) => {
-        try {
-            const book = await bookService.addBook(name, description, year, isbn, author);
-            return { success: true, book };
-        }
-        catch (err) {
-            return { success: false, mesasges: [err.message] }
-        }
+        const book = await bookService.addBook(name, description, year, isbn, author);
+        return { success: true, book };
     }
 
     removeBook = async ({id}) => {
         try {
             const isDeleteSuccessful = await bookService.deleteBook(id);
             return { success: isDeleteSuccessful, 
-                messages: isDeleteSuccessful ? [] : ['Book with given id does not exist'] };
+                messages: isDeleteSuccessful ? [] : ['Book with given id does not exist'], book: { id: id } };
         }
         catch (err) {
             return { success: false, mesasges: [err.message] }

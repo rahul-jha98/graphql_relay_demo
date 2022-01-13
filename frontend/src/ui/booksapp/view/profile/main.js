@@ -1,12 +1,14 @@
+import { lazy, Suspense } from 'react';
 import { usePreloadedQuery, graphql } from 'react-relay';
 import ProfileDetails from './profiledetails';
-import BooksByUser from './BooksByUser';
+import Fallback from '../fallback';
+const BooksByUser = lazy(() => import('./BooksByUser'));
+
 export const profileQuery = graphql`
      query mainProfileQuery($id: ID!) {
          user(id: $id) {
              __typename
             ...profiledetailsFragment
-            ...BooksByUserFragment
          }
      }
 `;
@@ -19,9 +21,11 @@ export default ({ userid, queryReference }) => {
 
     return user && (<div>
         <ProfileDetails user={user} />
-        {user.__typename === 'Author' ? 
-            <BooksByUser user={user} /> :
-            <CommentsByUser user={user} />
-        }
+        <Suspense fallback={<Fallback />}>
+            {user.__typename === 'Author' ? 
+                <BooksByUser authorId={userid} /> :
+                <CommentsByUser userId={userid} />
+            }
+        </Suspense>
     </div>);
 }

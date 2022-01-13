@@ -24,8 +24,7 @@ const booksByAuthor = async (combined_author_ids) => {
     const author_ids = combined_author_ids.map((combined_author_id) => combined_author_id.slice(clipPosition + 1));
 
     const books = await bookService.booksFromAuthors(author_ids, pageSize + 1);
-    const booksGroupedByAuthorId = groupBy(prop('author_id'), books);   
-    console.log(booksGroupedByAuthorId);    
+    const booksGroupedByAuthorId = groupBy(prop('author_id'), books);      
     return map((author_id) => bookConnectionHandler.getPaginatedList(booksGroupedByAuthorId[author_id], 0, pageSize), author_ids);
 }
 
@@ -60,6 +59,7 @@ const commentsByUserIds = async (combined_user_ids) => {
 }
 
 const getDataLoaders = () => {
+    console.log("Initailizing dataloaders")
     return {
         userDataLoader: new DataLoader(usersByIds), 
 

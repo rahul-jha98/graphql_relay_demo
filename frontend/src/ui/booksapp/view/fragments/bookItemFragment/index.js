@@ -4,7 +4,6 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import BookMetaData from "./bookMetaData";
-import AuthorName from './authorName';
 
 export default ({ bookNodeRef, showAuthorName }) => {
     const book = useFragment(graphql`
@@ -15,21 +14,17 @@ export default ({ bookNodeRef, showAuthorName }) => {
         {
             id
             name
-            ...bookMetaDataFragment 
-            author @include (if: $fetchAuthorName) {
-                ...authorNameFragment
-            }
+            ...bookMetaDataFragment @arguments(fetchAuthorName: $fetchAuthorName)
         }
     `, bookNodeRef);
 
     return <Card elevation={2}>
         <CardActionArea>
-            <CardContent>
+            <CardContent sx={{padding: 1}}>
                 <Typography gutterBottom variant="body1" component="div">
                     {book.name}
                 </Typography>
-                {showAuthorName && <AuthorName authorRef={book.author} />}
-                <BookMetaData bookNodeRef={book} />
+                <BookMetaData bookNodeRef={book} showAuthorName={showAuthorName} />
             </CardContent>
         </CardActionArea>
     </Card>

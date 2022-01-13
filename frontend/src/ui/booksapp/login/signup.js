@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import { useMutation } from "react-relay";
 import Banner from './banner';
 
-const AddUserQuery = graphql`
+const AddUserMutation = graphql`
   mutation signupMutation($user_id: ID!, $password: String!, $name: String!, $is_author: Boolean!) {
     addUser(id: $user_id, 
             password: $password,
@@ -29,7 +29,7 @@ const AddUserQuery = graphql`
 export default ({ showLogin }) => {
     const { register, handleSubmit } = useForm();
 
-    const [commitMutation, isInFlight] = useMutation(AddUserQuery);
+    const [commitMutation, isInFlight] = useMutation(AddUserMutation);
 
     const [errorMessage, setErrorMessage] = useState("");
 

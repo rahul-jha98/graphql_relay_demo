@@ -105,7 +105,7 @@ type BookMutationPayload implements MutationPayload {
     success: Boolean!
     messages: [String!]
 
-    book: Book
+    book: Book!
 }
 
 type CommentMutationPayload implements MutationPayload {
@@ -142,7 +142,7 @@ type Mutation {
     addUser(id: ID!, password: String!, name: String!, is_author: Boolean!): UserMutationResponse!
     removeUser(id: ID!): MutationPayload!
 
-    addBook(name: String!, description: String!, year: Int!, isbn: String!, author: String!): BookMutationPayload!
+    addBook(name: String!, description: String!, year: Int!, isbn: String!, author: ID!): BookMutationPayload!
     updateBook(id: ID!, payload: UpdateBookInput!): BookMutationPayload!
     removeBook(id: ID!): BookMutationPayload!
 

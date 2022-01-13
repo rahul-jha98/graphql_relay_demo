@@ -8,7 +8,7 @@ class UserService {
     getUser = async (username) => {
         const [user] = await userDAO.fetchUser(username);
         if (!user) {
-            throw new Error('Could not fetch author details');
+            throw new Error(`Could not fetch author details for ${user}`);
         }
         return user;
     }

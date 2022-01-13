@@ -11,7 +11,7 @@ export default ({ authorRef }) => {
 
     return (
         <Typography variant="body2">
-            {author.name}
+            - {author?.name}
         </Typography> 
     );      
 }

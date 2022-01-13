@@ -9,12 +9,12 @@ export default () => {
     const [booksQueryReference, loadBooks] = useQueryLoader(booksConnectionQuery);
 
     useEffect(() => {
-        loadBooks();
+        loadBooks({ first: 5 });
     }, []);
     
     return (
         <Suspense fallback={<Fallback />}>
-            <Books queryReference={booksQueryReference} />
+            <Books queryReference={booksQueryReference}/>
         </Suspense>
     );
 }

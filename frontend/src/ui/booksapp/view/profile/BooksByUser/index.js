@@ -1,20 +1,20 @@
-import { graphql, useFragment } from "react-relay";
-import BooksListFragment from '../../fragments/booksConnectionFragment';
+import { lazy, Suspense, useEffect } from 'react';
+import { useQueryLoader } from 'react-relay';
+import Fallback from '../../fallback';
+import { booksByUserConnectionQuery } from './main';
+const BooksByUser = lazy(() => import('./main'));
 
 
-export default ({ user }) => {
-    const data = useFragment(graphql`
-        fragment BooksByUserFragment on User {
-            ...on Author {
-                books {
-                    ...booksConnectionFragment @arguments(fetchAuthorName: false)
-                }
-            }
-        }
-    `, user);
+export default ({ authorId }) => {
+    const [booksQueryReference, loadBooks] = useQueryLoader(booksByUserConnectionQuery);
 
-    return <>
-        Your Books
-        <BooksListFragment bookConnectionRef={data.books} showAuthorName={false}/>
-    </>
+    useEffect(() => {
+        loadBooks({ first: 5, authorId });
+    }, []);
+    
+    return (
+        <Suspense fallback={<Fallback />}>
+            <BooksByUser queryReference={booksQueryReference} />
+        </Suspense>
+    );
 }

@@ -15,16 +15,17 @@ app.use(cors());
 
 const PORT = process.env.PORT || 8080;
 
-app.use('/graphql', graphqlHTTP({
-    schema,
-    graphiql: true,
-    customFormatErrorFn: (err) => {
-        return ({ message: err.message, statusCode: 500 });
-    },
-    context: {
-        dataLoaders: getDataLoaders()
-    },
-}));
+
+app.use('/graphql', graphqlHTTP(() => ({
+        schema,
+        graphiql: true,
+        customFormatErrorFn: (err) => {
+            return ({ message: err.message, statusCode: 500 });
+        },
+        context: {
+            dataLoaders: getDataLoaders()
+        }
+    })));
 
 app.listen(PORT, () => {
     console.log(`Server listening at port ${PORT}`);
