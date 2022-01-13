@@ -3,6 +3,8 @@ interface Node {
 }
 
 type PageInfo {
+    hasPreviousPage: Boolean!
+    startCursor: String
     endCursor: String
     hasNextPage: Boolean!
 }
@@ -87,30 +89,30 @@ type CommentEdge {
     node: Comment!
 }
 
-interface MutationResponse {
+interface MutationPayload {
     success: Boolean!
     messages: [String!]
 }
 
-type UserMutationResponse implements MutationResponse {
+type UserMutationResponse implements MutationPayload {
     success: Boolean!
     messages: [String!]
 
     user: User
 }
 
-type BookMutationResponse implements MutationResponse {
+type BookMutationPayload implements MutationPayload {
     success: Boolean!
     messages: [String!]
 
     book: Book
 }
 
-type CommentMutationResponse implements MutationResponse {
+type CommentMutationPayload implements MutationPayload {
     success: Boolean!
     messages: [String!]
 
-    comment: Comment
+    payload: CommentEdge
 }
 
 input UpdateBookInput {
@@ -138,12 +140,12 @@ type Query {
 
 type Mutation {
     addUser(id: ID!, password: String!, name: String!, is_author: Boolean!): UserMutationResponse!
-    removeUser(id: ID!): MutationResponse!
+    removeUser(id: ID!): MutationPayload!
 
-    addBook(name: String!, description: String!, year: Int!, isbn: String!, author: String!): BookMutationResponse!
-    updateBook(id: ID!, payload: UpdateBookInput!): BookMutationResponse!
-    removeBook(id: ID!): MutationResponse!
+    addBook(name: String!, description: String!, year: Int!, isbn: String!, author: String!): BookMutationPayload!
+    updateBook(id: ID!, payload: UpdateBookInput!): BookMutationPayload!
+    removeBook(id: ID!): BookMutationPayload!
 
-    addComment(book_id: ID!, user_id: String!, message: String!): CommentMutationResponse!
-    removeComment(id: ID!): MutationResponse!
+    addComment(book_id: ID!, user_id: String!, message: String!): CommentMutationPayload!
+    removeComment(id: ID!): CommentMutationPayload!
 }

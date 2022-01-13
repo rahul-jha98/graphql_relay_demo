@@ -37,12 +37,15 @@ class BookResolver {
     removeBook = async ({id}) => {
         try {
             const isDeleteSuccessful = await bookService.deleteBook(id);
-            return { success: isDeleteSuccessful, messages: isDeleteSuccessful ? [] : ['Book with given id does not exist'] };
+            return { success: isDeleteSuccessful, 
+                messages: isDeleteSuccessful ? [] : ['Book with given id does not exist'] };
         }
         catch (err) {
             return { success: false, mesasges: [err.message] }
         }
     }
+
+    
 };
 
  module.exports = new BookResolver();

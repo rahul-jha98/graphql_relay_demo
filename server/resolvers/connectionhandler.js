@@ -12,6 +12,9 @@ class ConnectionHandler {
     }
 
     getPaginatedList = (overFetchedListItems, startIndex, pageSize) => {
+        if (!overFetchedListItems || overFetchedListItems.length === 0) {
+            return { edges: [], pageInfo: {endCursor: null, hasNextPage: false}}
+        }
         const hasNextPage = overFetchedListItems.length > pageSize;
         if (hasNextPage) overFetchedListItems.splice(-1, 1);
 

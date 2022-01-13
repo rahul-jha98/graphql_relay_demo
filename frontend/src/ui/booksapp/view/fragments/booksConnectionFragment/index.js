@@ -26,5 +26,6 @@ export default ({ bookConnectionRef, showAuthorName }) => {
                     showAuthorName={showAuthorName}/>
             )}
         </Stack>
-    );  
+    );
+        
 }
