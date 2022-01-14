@@ -3,28 +3,19 @@ import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
 import format from 'date-fns/format';
 
-export default ({ commentNodeRef, showBookName }) => {
+export default ({ commentNodeRef }) => {
     const comment = useFragment(graphql`
         fragment commentMetaDataFragment on Comment
-            @argumentDefinitions(
-                fetchBookDetail: { type: "Boolean!" }
-            ) {
-            timestamp
-            book @include (if: $fetchBookDetail) {
-                name
-            }
-            
+        {
+            timestamp            
         }
     `, commentNodeRef);
 
-    const formattedTime = format(new Date(parseInt(comment.timestamp)), 'dd/MM/yy hh:mm aa');
+    const formattedTime = format(new Date(parseInt(comment.timestamp)), 'hh:mm aa dd/MM/yy ');
 
     return (
-        <Stack direction="row" justifyContent="space-between">
-            <Typography variant="subtitle2" color="text.secondary">
-                {formattedTime}
-            </Typography>
-            {/* {showBookName && <AuthorName authorRef={book.author} />} */}
-        </Stack>
+        <Typography variant="caption" color="text.secondary" sx={{float: 'right'}}>
+            {formattedTime}
+        </Typography>
     );      
 }

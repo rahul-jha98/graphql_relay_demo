@@ -2,10 +2,11 @@ import { graphql, useFragment } from "react-relay";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
-import CommentMetaData from "./commentMetaData";
 
-export default ({ commentNodeRef, showBookName }) => {
+import CommentMetaData from "./commentMetaData";
+import BookData from './bookData';
+
+export default ({ commentNodeRef }) => {
     const comment = useFragment(graphql`
         fragment commentItemFragment on Comment
             @argumentDefinitions(
@@ -14,7 +15,10 @@ export default ({ commentNodeRef, showBookName }) => {
         {
             id
             message
-            ...commentMetaDataFragment @arguments(fetchBookDetail: $fetchBookDetail)
+            ...commentMetaDataFragment
+            book @include (if: $fetchBookDetail) {
+                ...bookDataFragment
+            }
         }
     `, commentNodeRef);
 
@@ -23,7 +27,8 @@ export default ({ commentNodeRef, showBookName }) => {
             <Typography gutterBottom variant="body2" component="div">
                 {comment.message}
             </Typography>
-            <CommentMetaData commentNodeRef={comment} showBookName={showBookName} />
+            {comment.book && <BookData bookRef={comment.book} />}
+            <CommentMetaData commentNodeRef={comment}/>
         </CardContent>
     </Card>
 }

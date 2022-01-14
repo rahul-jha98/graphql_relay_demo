@@ -11,7 +11,7 @@ export default ({ user }) => {
         }
     `, user);
 
-    return <Stack direction="column"  margin={2} marginRight={15}>
+    return <Stack direction="column" marginY={2} marginBottom={5}>
         <Typography variant="body2" color="text.secondary">
             {data.id}
         </Typography>

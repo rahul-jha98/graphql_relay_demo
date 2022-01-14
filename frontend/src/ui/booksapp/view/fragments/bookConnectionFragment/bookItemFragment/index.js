@@ -4,6 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import BookMetaData from "./bookMetaData";
+import { useStoreActions } from "../../../store";
 
 export default ({ bookNodeRef, showAuthorName }) => {
     const book = useFragment(graphql`
@@ -18,8 +19,10 @@ export default ({ bookNodeRef, showAuthorName }) => {
         }
     `, bookNodeRef);
 
-    return <Card elevation={2}>
-        <CardActionArea>
+    const [, { setSelectedBookId }] = useStoreActions();
+
+    return <Card elevation={1}>
+        <CardActionArea onClick={() => setSelectedBookId(book.id)}>
             <CardContent sx={{padding: 1}}>
                 <Typography gutterBottom variant="body1" component="div">
                     {book.name}

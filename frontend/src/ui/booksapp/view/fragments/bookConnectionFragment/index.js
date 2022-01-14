@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { graphql, usePaginationFragment } from "react-relay";
 import Stack from "@mui/material/Stack";
 import BookItemFragment from './bookItemFragment';
@@ -26,7 +26,7 @@ export default ({ rootRef, showAuthorName }) => {
     `, rootRef);
 
     return <>
-        <Stack direction="column" spacing={1} margin={2} marginRight={15}>
+        <Stack direction="column" spacing={1} marginY={2} marginRight={15}>
             {data.books?.edges?.map((edge) => 
                 <BookItemFragment 
                     bookNodeRef={edge.node} 
@@ -36,7 +36,12 @@ export default ({ rootRef, showAuthorName }) => {
         </Stack>
 
         {hasNext && 
-            <Button onClick={() => loadNext(2)} disabled={isLoadingNext}>Load More</Button>
+            <LoadingButton 
+                onClick={() => loadNext(2)}
+                loading={isLoadingNext}
+                variant="outlined">
+                Load More
+            </LoadingButton>
         }
     </>
 }

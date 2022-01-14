@@ -1,6 +1,7 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense,  useEffect } from 'react';
 import { useQueryLoader } from 'react-relay';
 import Fallback from '../fallback';
+import { useSelectedUserId } from '../store';
 const Profile = lazy(() => import('./main'));
 
 export const profileQuery = graphql`
@@ -12,17 +13,17 @@ export const profileQuery = graphql`
      }
 `;
 
-export default ({ userid }) => {
+export default () => {
     const [profileQueryReference, loadProfile] = useQueryLoader(profileQuery);
-    const [selectedUserID, setSelectedUserID] = useState(userid);
+    const [selectedUserID] = useSelectedUserId();
 
     useEffect(() => {
-        loadProfile({id: selectedUserID});
+        loadProfile({id: selectedUserID });
     }, [selectedUserID]);
     
     return (
         <Suspense fallback={<Fallback />}>
-            <Profile userid={userid} queryReference={profileQueryReference} />
+            {profileQueryReference && <Profile userid={selectedUserID} queryReference={profileQueryReference} />}
         </Suspense>
     );
 }

@@ -18,7 +18,7 @@ export default ({ authorId }) => {
     
     return (
         <Suspense fallback={<Fallback />}>
-            <BooksByUser queryReference={booksQueryReference} />
+            {booksQueryReference && <BooksByUser queryReference={booksQueryReference} />}
         </Suspense>
     );
 }

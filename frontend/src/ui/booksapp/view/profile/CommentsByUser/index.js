@@ -5,7 +5,7 @@ const CommentsByUser = lazy(() => import('./main'));
 
 export const commentsByUserConnectionQuery = graphql`
      query CommentsByUseronnectionQuery($first: Int!, $userId: ID ) {
-         ...commentConnectionFragment @arguments(first: $first, user_id: $userId, fetchBookDetail: false)
+         ...commentConnectionFragment @arguments(first: $first, user_id: $userId, fetchBookDetail: true)
      }
 `;
 
@@ -18,7 +18,7 @@ export default ({ userId }) => {
     
     return (
         <Suspense fallback={<Fallback />}>
-           <CommentsByUser queryReference={commentsQueryReference} />
+           {commentsQueryReference && <CommentsByUser queryReference={commentsQueryReference} />}
         </Suspense>
     );
 }

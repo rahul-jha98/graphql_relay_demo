@@ -22,7 +22,7 @@ class BookService {
 
     booksFromAuthors = async (author_ids, pageSize) => bookDAO.fetchBooksFromAuthors(author_ids, pageSize);
 
-    booksWithIds = async (book_ids) => bookDAO.fetchBooksWithIds(book_ids.map((book_id) => this.sanitizeId(book_id)));
+    booksWithIds = async (book_ids) => bookDAO.fetchBooksWithIds(book_ids);
 
     addBook = async (name, description, year, isbn, author_id) => {
         const [book] = await bookDAO.insertBook(name, description, year, isbn, author_id);

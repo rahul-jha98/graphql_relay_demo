@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { graphql, usePaginationFragment } from "react-relay";
 import Stack from "@mui/material/Stack";
 import CommentsList from '../commentEdgesFragment';
@@ -28,7 +28,7 @@ export default ({ rootRef, showBookName }) => {
         <CommentsList commentConnectionRef={data?.comments} showBookName={showBookName} />
 
         {hasNext && 
-            <Button onClick={() => loadNext(2)} disabled={isLoadingNext}>Load More</Button>
+            <LoadingButton onClick={() => loadNext(2)} loading={isLoadingNext} variant="outlined">Load More</LoadingButton>
         }
     </>
 }

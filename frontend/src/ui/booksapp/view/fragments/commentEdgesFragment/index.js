@@ -4,7 +4,7 @@ import CommentItemFragment from './commentItemFragment';
 
 
 
-export default ({ commentConnectionRef, showBookName }) => {
+export default ({ commentConnectionRef }) => {
     const data = useFragment(graphql`
         fragment commentEdgesFragment on CommentConnection
         @argumentDefinitions(
@@ -20,12 +20,11 @@ export default ({ commentConnectionRef, showBookName }) => {
     `, commentConnectionRef);
 
     return <>
-        <Stack direction="column" spacing={1} margin={2} marginRight={15}>
+        <Stack direction="column" spacing={1} marginY={2} marginRight={15}>
             {data.edges?.map((edge) => 
                 <CommentItemFragment 
                     commentNodeRef={edge.node} 
-                    key={edge.node.id} 
-                    showBookName={showBookName}/>
+                    key={edge.node.id} />
             )}
         </Stack>
     </>
