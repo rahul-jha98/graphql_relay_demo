@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { graphql, usePaginationFragment } from "react-relay";
 import Stack from "@mui/material/Stack";
-import BookItemFragment from '../bookItemFragment';
+import BookItemFragment from './bookItemFragment';
 
 
 

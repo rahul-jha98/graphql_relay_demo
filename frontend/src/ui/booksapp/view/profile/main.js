@@ -2,16 +2,12 @@ import { lazy, Suspense } from 'react';
 import { usePreloadedQuery, graphql } from 'react-relay';
 import ProfileDetails from './profiledetails';
 import Fallback from '../fallback';
-const BooksByUser = lazy(() => import('./BooksByUser'));
+import { profileQuery } from './index';
 
-export const profileQuery = graphql`
-     query mainProfileQuery($id: ID!) {
-         user(id: $id) {
-             __typename
-            ...profiledetailsFragment
-         }
-     }
-`;
+const BooksByUser = lazy(() => import('./BooksByUser'));
+const CommentsByUser = lazy(() => import('./CommentsByUser'));
+
+
 
 export default ({ userid, queryReference }) => {
     if (!queryReference) return null;

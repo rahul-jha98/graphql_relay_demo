@@ -1,11 +1,7 @@
 import { usePreloadedQuery, graphql } from 'react-relay';
 import BooksList from '../fragments/bookConnectionFragment';
+import { booksConnectionQuery } from '.';
 
-export const booksConnectionQuery = graphql`
-     query mainBooksConnectionQuery($first: Int!) {
-         ...bookConnectionFragment @arguments(first: $first)
-     }
-`;
 
 export default ({  queryReference }) => {
     if (!queryReference) return null;

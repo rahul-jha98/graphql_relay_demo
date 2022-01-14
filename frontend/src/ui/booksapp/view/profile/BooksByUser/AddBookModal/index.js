@@ -21,6 +21,7 @@ const AddBookMutation = graphql`
             id
             name
             isbn
+            year
         }
     }
   }
