@@ -1,5 +1,5 @@
 import {Environment, Network, RecordSource, Store, ROOT_TYPE } from 'relay-runtime';
-
+import {  ConnectionHandler } from "react-relay";
 const store = new Store(new RecordSource())
 
 const BASE_URL = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_SERVER_BASE_URL : 'http://localhost:8080';
@@ -32,6 +32,18 @@ const missingFieldHandlers = [
         argValues.hasOwnProperty('id')
       ) {
         return argValues.id;
+      }
+      if (
+        record != null &&
+        record.__typename === ROOT_TYPE &&
+        field.name === 'comments' &&
+        argValues.hasOwnProperty('book_id') &&
+        !argValues.hasOwnProperty('user_id')
+      ) {
+        const requestedBookId = argValues.book_id;
+  
+        const connectionId = ConnectionHandler.getConnectionID(requestedBookId, "PaginatedListCommentsForBook_comments");
+        return connectionId;
       }
       return undefined;
     },

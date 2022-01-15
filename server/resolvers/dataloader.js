@@ -40,7 +40,7 @@ const commentsByBookIds = async (combined_book_ids) => {
 
     const book_ids = combined_book_ids.map((combined_book_id) => combined_book_id.slice(clipPosition + 1));
 
-    const comments = await commentService.commentsForBookIds(book_ids, pageSize);
+    const comments = await commentService.commentsForBookIds(book_ids, pageSize+1);
 
     const commentsGroupedByBookId = groupBy(prop('book_id'), comments);
     return map((book_id) => commentConnectionHandler.getPaginatedList(commentsGroupedByBookId[book_id], 0, pageSize), book_ids);
@@ -52,7 +52,7 @@ const commentsByUserIds = async (combined_user_ids) => {
 
     const user_ids = combined_user_ids.map((combined_user_id) => combined_user_id.slice(clipPosition + 1));
 
-    const comments = await commentService.commentsFromUserIds(user_ids, pageSize);
+    const comments = await commentService.commentsFromUserIds(user_ids, pageSize+1);
 
     const commentsGroupedByUserId = groupBy(prop('user_id'), comments);
     return map((user_id) => commentConnectionHandler.getPaginatedList(commentsGroupedByUserId[user_id], 0, pageSize), user_ids);

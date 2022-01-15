@@ -5,12 +5,14 @@ import Typography from '@mui/material/Typography';
 
 import CommentMetaData from "./commentMetaData";
 import BookData from './bookData';
+import UserData from './commentUserData';
 
 export default ({ commentNodeRef }) => {
     const comment = useFragment(graphql`
         fragment commentItemFragment on Comment
             @argumentDefinitions(
-                fetchBookDetail: { type: "Boolean!" }
+                fetchBookDetail: { type: "Boolean!" },
+                skipUser: { type: "Boolean!" }
             )
         {
             id
@@ -18,6 +20,9 @@ export default ({ commentNodeRef }) => {
             ...commentMetaDataFragment
             book @include (if: $fetchBookDetail) {
                 ...bookDataFragment
+            }
+            user @skip (if: $skipUser) {
+                ...commentUserDataFragment
             }
         }
     `, commentNodeRef);
@@ -28,6 +33,7 @@ export default ({ commentNodeRef }) => {
                 {comment.message}
             </Typography>
             {comment.book && <BookData bookRef={comment.book} />}
+            {comment.user && <UserData userRef={comment.user} />}
             <CommentMetaData commentNodeRef={comment}/>
         </CardContent>
     </Card>

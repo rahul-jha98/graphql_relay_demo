@@ -20,6 +20,8 @@ const isOnlyIdQueried = (info, idFieldValue) => {
 }
 
 const nodeResolver = ({ id }) => {
+    if (!id) return id;
+
     const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
     if (id.startsWith('comment:')) {
         if (regexExp.test(id.slice('comment:'.length))) {
@@ -31,6 +33,16 @@ const nodeResolver = ({ id }) => {
         }
     }
     return userResolver.getUser({ id });
+}
+
+const sanitizeId = (id, type) => {
+    if (!id) return id;
+    if (id.startsWith('comment:')) {
+        return id.slice('comment:'.length);
+    } else if (id.startsWith('book:')) {
+        return id.slice('book:'.length);
+    }
+    return id;
 }
 
 const queryResolvers = {
@@ -106,6 +118,7 @@ const queryResolvers = {
             }
             const { dataLoaders } = context;
             const { userDataLoader } = dataLoaders;
+
             return userDataLoader.load(comment.user_id);
         },
 
@@ -114,9 +127,12 @@ const queryResolvers = {
             if (isOnlyIdQueried(info, 'id')) {
                 return { id: comment.book_id };
             }
+
             const { dataLoaders } = context;
             const { bookDataLoader } = dataLoaders;
-            return bookDataLoader.load(comment.book_id);
+
+            const dbBookId = sanitizeId(comment.book_id);
+            return bookDataLoader.load(dbBookId);
         },
     },
     User: {

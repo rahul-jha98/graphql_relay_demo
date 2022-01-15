@@ -8,12 +8,13 @@ export default ({ commentConnectionRef }) => {
     const data = useFragment(graphql`
         fragment commentEdgesFragment on CommentConnection
         @argumentDefinitions(
-                fetchBookDetail: { type: "Boolean", defaultValue: true }
+                fetchBookDetail: { type: "Boolean", defaultValue: true },
+                skipUser: { type: "Boolean", defaultValue: true }
             ) {
             edges {
                 node {
                     id
-                    ...commentItemFragment @arguments(fetchBookDetail: $fetchBookDetail)
+                    ...commentItemFragment @arguments(fetchBookDetail: $fetchBookDetail, skipUser: $skipUser)
                 }
             }
         }

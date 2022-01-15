@@ -1,4 +1,4 @@
-import { lazy, Suspense,  useEffect } from 'react';
+import { lazy, Suspense,  useEffect, useState } from 'react';
 import { useQueryLoader } from 'react-relay';
 import Fallback from '../fallback';
 import { useSelectedUserId } from '../store';
@@ -17,13 +17,16 @@ export default () => {
     const [profileQueryReference, loadProfile] = useQueryLoader(profileQuery);
     const [selectedUserID] = useSelectedUserId();
 
+    const [userId, setUserId] = useState(selectedUserID);
+
     useEffect(() => {
         loadProfile({id: selectedUserID });
+        setUserId(selectedUserID);
     }, [selectedUserID]);
     
     return (
         <Suspense fallback={<Fallback />}>
-            {profileQueryReference && <Profile userid={selectedUserID} queryReference={profileQueryReference} />}
+            {profileQueryReference && <Profile userid={userId} queryReference={profileQueryReference} />}
         </Suspense>
     );
 }
