@@ -4,7 +4,6 @@ import { booksConnectionQuery } from '.';
 
 
 export default ({  queryReference }) => {
-    if (!queryReference) return null;
     const data = usePreloadedQuery(booksConnectionQuery, queryReference);
 
     return <BooksList rootRef={data} showAuthorName={true}/>;

@@ -17,7 +17,7 @@ export default ({ queryReference }) => {
             Books
         </Typography>
         <Button onClick={() => setIsModalOpen(true)}>Add Book</Button>
-        <BooksList rootRef={data} showAuthorName={false} />;
+        <BooksList rootRef={data} showAuthorName={false} />
         {isModalOpen && <AddBookDialog closeModal={() => setIsModalOpen(false)}/>}
     </>
 }

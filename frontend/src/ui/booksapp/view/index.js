@@ -1,6 +1,7 @@
 import Grid from '@mui/material/Grid';
 import Profile from './profile';
 import Books from './books';
+import BookDetail from './bookDetail';
 import {StoreContainer} from './store';
 
 export default ({ userid }) => {
@@ -14,7 +15,7 @@ export default ({ userid }) => {
                     <Books />
                 </Grid>
                 <Grid item xs={4}>
-                    Profile
+                    <BookDetail />
                 </Grid>
             </Grid>
         </StoreContainer>

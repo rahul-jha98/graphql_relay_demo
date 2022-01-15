@@ -5,7 +5,7 @@ import CommentsList from '../commentEdgesFragment';
 
 
 
-export default ({ rootRef, showBookName }) => {
+export default ({ rootRef }) => {
     const {data, hasNext, loadNext, isLoadingNext} = usePaginationFragment(graphql`
         fragment commentConnectionFragment on Query @refetchable(queryName: "CommentsPagintaionQuery")
         @argumentDefinitions(
@@ -25,7 +25,7 @@ export default ({ rootRef, showBookName }) => {
     `, rootRef);
 
     return <>
-        <CommentsList commentConnectionRef={data?.comments} showBookName={showBookName} />
+        <CommentsList commentConnectionRef={data?.comments} />
 
         {hasNext && 
             <LoadingButton onClick={() => loadNext(2)} loading={isLoadingNext} variant="outlined">Load More</LoadingButton>

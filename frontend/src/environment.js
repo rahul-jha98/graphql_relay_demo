@@ -1,4 +1,4 @@
-import {Environment, Network, RecordSource, Store } from 'relay-runtime';
+import {Environment, Network, RecordSource, Store, ROOT_TYPE } from 'relay-runtime';
 
 const store = new Store(new RecordSource())
 
@@ -21,9 +21,28 @@ const network = Network.create((operation, variables) => {
   })
 });
 
+const missingFieldHandlers = [
+  {
+    handle(field, record, argValues) {
+
+      if (
+        record != null &&
+        record.__typename === ROOT_TYPE &&
+        field.name === 'node' &&
+        argValues.hasOwnProperty('id')
+      ) {
+        return argValues.id;
+      }
+      return undefined;
+    },
+    kind: 'linked',
+  },
+];
+
 const environment = new Environment({
   network,
   store,
+  missingFieldHandlers
 });
 
 export default environment;

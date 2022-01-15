@@ -18,7 +18,7 @@ export default () => {
     
     return (
         <Suspense fallback={<Fallback />}>
-            <Books queryReference={booksQueryReference}/>
+            {booksQueryReference && <Books queryReference={booksQueryReference}/>}
         </Suspense>
     );
 }

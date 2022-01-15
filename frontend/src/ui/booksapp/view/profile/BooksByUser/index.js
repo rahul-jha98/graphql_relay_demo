@@ -14,7 +14,7 @@ export default ({ authorId }) => {
 
     useEffect(() => {
         loadBooks({ first: 5, authorId });
-    }, []);
+    }, [authorId]);
     
     return (
         <Suspense fallback={<Fallback />}>
