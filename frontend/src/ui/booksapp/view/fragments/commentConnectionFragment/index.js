@@ -14,13 +14,14 @@ export default ({ rootRef, title }) => {
                 user_id: { type: "ID" }
                 book_id: { type: "ID" }
                 fetchBookDetail: { type: "Boolean", defaultValue: true }
-                skipUser: { type: "Boolean", defaultValue: true }
+                skipUser: { type: "Boolean", defaultValue: true },
+                skipTimestamp: { type: "Boolean", defaultValue: false }
             ) {
             comments(first: $first, after: $after, user_id: $user_id, book_id: $book_id) @connection(key: "PaginatedList_comments") {
                 edges {
                     cursor
                 }
-                ...commentEdgesFragment @arguments(fetchBookDetail: $fetchBookDetail, skipUser: $skipUser)
+                ...commentEdgesFragment @arguments(fetchBookDetail: $fetchBookDetail, skipUser: $skipUser, skipTimestamp: $skipTimestamp)
             }
         }
     `, rootRef);

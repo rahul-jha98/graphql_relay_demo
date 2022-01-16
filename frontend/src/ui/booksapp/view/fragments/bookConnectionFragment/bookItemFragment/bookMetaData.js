@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
 import AuthorName from './authorName';
 
-export default ({ bookNodeRef, showAuthorName }) => {
+export default ({ bookNodeRef }) => {
     const book = useFragment(graphql`
         fragment bookMetaDataFragment on Book 
             @argumentDefinitions(
@@ -22,7 +22,7 @@ export default ({ bookNodeRef, showAuthorName }) => {
             <Typography variant="body2" color="text.secondary">
                 {book.year}
             </Typography>
-            {showAuthorName && <AuthorName authorRef={book.author} />}
+            {book.author && <AuthorName authorRef={book.author} />}
         </Stack>
     );      
 }

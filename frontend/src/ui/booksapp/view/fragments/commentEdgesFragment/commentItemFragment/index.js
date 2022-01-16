@@ -12,12 +12,13 @@ export default ({ commentNodeRef }) => {
         fragment commentItemFragment on Comment
             @argumentDefinitions(
                 fetchBookDetail: { type: "Boolean!" },
-                skipUser: { type: "Boolean!" }
+                skipUser: { type: "Boolean!" },
+                skipTimestamp: { type: "Boolean!"}
             )
         {
             id
             message
-            ...commentMetaDataFragment
+            ...commentMetaDataFragment @arguments(skipTimestamp: $skipTimestamp)
             book @include (if: $fetchBookDetail) {
                 ...bookDataFragment
             }
@@ -32,8 +33,8 @@ export default ({ commentNodeRef }) => {
             <Typography gutterBottom variant="body2" component="div">
                 {comment.message}
             </Typography>
-            {comment.book && <BookData bookRef={comment.book} />}
             {comment.user && <UserData userRef={comment.user} />}
+            {comment.book && <BookData bookRef={comment.book} />}
             <CommentMetaData commentNodeRef={comment}/>
         </CardContent>
     </Card>

@@ -16,7 +16,7 @@ export default ({ userRef }) => {
             component="div"
             onClick={() => setSelectedUserId(user.id)}
             sx={{fontSize: ".80rem", cursor: "pointer"}} >
-            by {user.name}
+            {user.name}
         </Typography> 
     );      
 }

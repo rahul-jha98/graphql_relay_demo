@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import { useForm } from "react-hook-form";
 import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -11,7 +12,7 @@ import { useMutation, graphql, ConnectionHandler } from "react-relay";
 import Banner from './banner';
 
 const AddBookMutation = graphql`
-  mutation AddBookModalMutation($name: String!, $description: String!, $year: Int!, $isbn: String!, $authorId: ID!, $connections: [ID!]!) {
+  mutation addBookModalMutation($name: String!, $description: String!, $year: Int!, $isbn: String!, $authorId: ID!, $connections: [ID!]!) {
     addBook(name: $name,
             description: $description,
             year: $year,
@@ -21,7 +22,9 @@ const AddBookMutation = graphql`
             id
             name
             isbn
-            year
+            author {
+                id
+            }
         }
     }
   }
@@ -58,7 +61,6 @@ export default function AddBookDialog({ closeModal }) {
                 connections: [booksByAuthorConnectionId, allBooksConnectionId],
             },
             onCompleted: ({ addBook: book}) => {
-                console.log(book);
                 closeModal();
             },
             onError: (err) => {
@@ -115,7 +117,7 @@ export default function AddBookDialog({ closeModal }) {
 
                 <DialogActions>
                     <Button onClick={closeModal} disabled={isInFlight}>Cancel</Button>
-                    <Button variant='contained' type="submit" disabled={isInFlight}>Add</Button>
+                    <LoadingButton variant='contained' type="submit" loading={isInFlight}>Add</LoadingButton>
                 </DialogActions>
             </form>
         </Dialog>

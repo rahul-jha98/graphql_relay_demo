@@ -1,12 +1,13 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import { graphql, usePaginationFragment } from "react-relay";
 import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 import BookItemFragment from './bookItemFragment';
+import Typography from "@mui/material/Typography";
+import CachedIcon from '@mui/icons-material/Cached';
 
-
-
-export default ({ rootRef, showAuthorName }) => {
-    const {data, hasNext, loadNext, isLoadingNext} = usePaginationFragment(graphql`
+export default ({ rootRef, title }) => {
+    const {data, hasNext, loadNext, isLoadingNext, refetch} = usePaginationFragment(graphql`
         fragment bookConnectionFragment on Query @refetchable(queryName: "BooksPagintaionQuery")
         @argumentDefinitions(
                 first: { type: "Int", defaultValue: 4 }
@@ -25,13 +26,24 @@ export default ({ rootRef, showAuthorName }) => {
         }
     `, rootRef);
 
+    const refetchList = () => {
+        const count = Math.max(data.books?.edges?.length, 5)
+        refetch({ first: count }, { fetchPolicy: 'store-and-network'})
+    }
     return <>
+        
         <Stack direction="column" spacing={1} marginY={2} marginRight={15}>
+            <Stack direction="row" alignItems="center" justifyContent="space-between">
+                <Typography>
+                    {title}
+                </Typography>
+
+                <Button onClick={refetchList} startIcon={<CachedIcon />}>Refetch</Button>
+            </Stack>
             {data.books?.edges?.map((edge) => 
                 <BookItemFragment 
                     bookNodeRef={edge.node} 
-                    key={edge.node.id} 
-                    showAuthorName={showAuthorName}/>
+                    key={edge.node.id} />
             )}
         </Stack>
 

@@ -6,7 +6,7 @@ import { CardActionArea } from '@mui/material';
 import BookMetaData from "./bookMetaData";
 import { useStoreActions } from "../../../store";
 
-export default ({ bookNodeRef, showAuthorName }) => {
+export default ({ bookNodeRef}) => {
     const book = useFragment(graphql`
         fragment bookItemFragment on Book
             @argumentDefinitions(
@@ -27,7 +27,7 @@ export default ({ bookNodeRef, showAuthorName }) => {
                 <Typography gutterBottom variant="body1" component="div">
                     {book.name}
                 </Typography>
-                <BookMetaData bookNodeRef={book} showAuthorName={showAuthorName} />
+                <BookMetaData bookNodeRef={book} />
             </CardContent>
         </CardActionArea>
     </Card>
