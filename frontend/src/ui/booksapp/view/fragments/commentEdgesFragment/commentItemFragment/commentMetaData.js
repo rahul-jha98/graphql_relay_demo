@@ -19,7 +19,7 @@ export default ({ commentNodeRef }) => {
     const formattedTime = format(new Date(parseInt(comment.timestamp)), 'hh:mm aa dd/MM/yy ');
 
     return (
-        <Typography variant="caption" color="text.secondary" sx={{float: 'right'}}>
+        <Typography variant="caption" color="text.secondary" textAlign="right" width="100%" display="block">
             {formattedTime}
         </Typography>
     );      

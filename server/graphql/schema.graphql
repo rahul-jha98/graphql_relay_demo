@@ -115,6 +115,13 @@ type CommentMutationPayload implements MutationPayload {
     comment: Comment
 }
 
+type RemoveCommentMutationPayload implements MutationPayload {
+    success: Boolean!
+    messages: [String!]
+
+    deletedCommentId: ID
+}
+
 input UpdateBookInput {
     name: String
     year: Int
@@ -147,5 +154,5 @@ type Mutation {
     removeBook(id: ID!): BookMutationPayload!
 
     addComment(book_id: ID!, user_id: ID!, message: String!): CommentMutationPayload!
-    removeComment(id: ID!): CommentMutationPayload!
+    removeComment(id: ID!): RemoveCommentMutationPayload!
 }

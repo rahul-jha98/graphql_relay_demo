@@ -7,6 +7,7 @@ const initialState = {
     selectedUserId: '',
     currentUserId: '',
     selectedBookId: '',
+    userType: ''
 };
 
 const actions = {
@@ -15,6 +16,9 @@ const actions = {
     },
     setSelectedBookId: (newBookId) => ({ setState }) => {
         setState({selectedBookId: newBookId});
+    },
+    setUserType: (userType) => ({ setState }) => {
+        setState({ userType })
     }
 }
 const store = createStore({
@@ -52,6 +56,10 @@ export const useSelectedBookId = createHook(store, {
 
 export const useCurrentUserId = createHook(store, {
     selector: (state) => state.currentUserId,
+});
+
+export const useUserType = createHook(store, {
+    selector: (state) => state.userType,
 });
 
 export const useStoreActions = createHook(store, { selector: null });

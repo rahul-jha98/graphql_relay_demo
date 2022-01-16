@@ -171,6 +171,10 @@ const mutationResolvers = {
 
         addComment: (_, args) => commentResolver.addComment(args),
         removeComment: (_, args) => commentResolver.removeComment(args),
+    },
+
+    RemoveCommentMutationPayload: {
+        deletedCommentId: (payload) =>  `comment:${payload.deletedCommentId}`,
     }
 }
 

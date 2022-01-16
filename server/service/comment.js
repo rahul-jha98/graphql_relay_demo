@@ -22,9 +22,9 @@ class CommentService {
         return comment;
     }
 
-    removeComment = async (id) => {
-        const rowsDeleted = await commentDAO.deleteComment(this.sanitizeId(id));
-        return rowsDeleted === 1;
+    deleteComment = async (id) => {
+        const [deletedCommentId] = await commentDAO.deleteComment(this.sanitizeId(id));
+        return deletedCommentId;
     };
 }
 

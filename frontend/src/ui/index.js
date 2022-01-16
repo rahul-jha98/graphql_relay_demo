@@ -7,7 +7,7 @@ export default ({ isOnlineQueryRef } ) => {
                 isOnline
             }
         `, isOnlineQueryRef);
-    console.log(data);
+        
     return data.isOnline ? 
         <MainContent /> : "Offline";
 }

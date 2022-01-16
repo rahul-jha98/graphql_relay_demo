@@ -21,16 +21,13 @@ export default ({ bookNodeRef }) => {
         }
     `, bookNodeRef);
 
+    if (data?.comments?.edges?.every((edge) => edge.node === null)) {
+        return <AddCommentOption userCommentConnectionId={data?.comments?.__id} bookId={data.id} />
+    }
     return <>
-        {data?.comments?.edges?.length ? 
-            <>
-                <Typography variant='body1' marginTop={4}>
-                    Your Comment
-                </Typography>
-                <CommentsList commentConnectionRef={data?.comments} />
-            </> :
-            <AddCommentOption userCommentConnectionId={data?.comments?.__id} bookId={data.id} />
-        }
-     </>
-
+        <Typography variant='body1' marginTop={4}>
+            Your Comment
+        </Typography>
+        <CommentsList commentConnectionRef={data?.comments} />
+    </>
 }

@@ -53,10 +53,6 @@ export default function AddCommentOption ({ userCommentConnectionId, bookId }) {
                 book_id: bookId,
                 connections: [bookCommentsConnectionId, userCommentConnectionId],
             },
-            onCompleted: ({ addBook: comment}) => {
-                console.log(comment);
-                closeModal();
-            },
             onError: (err) => {
                 setErrorMessage(err.message);
             }

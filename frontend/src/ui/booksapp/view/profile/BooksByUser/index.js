@@ -5,7 +5,7 @@ const BooksByUser = lazy(() => import('./main'));
 
 export const booksByUserConnectionQuery = graphql`
      query BooksByUserConnectionQuery($first: Int!, $authorId: ID ) {
-         ...bookConnectionFragment @arguments(first: $first, author_id: $authorId)
+         ...bookConnectionFragment @arguments(first: $first, author_id: $authorId, fetchAuthorName: false, includeRecentComments: true)
      }
 `;
 

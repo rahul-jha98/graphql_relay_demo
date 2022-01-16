@@ -62,7 +62,8 @@ class CommentDAO {
     deleteComment = (id) => {
         return db('comment')
             .del()
-            .where({id});
+            .where({id})
+            .returning('id');
     }
 }
 

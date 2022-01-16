@@ -15,7 +15,7 @@ class CommentResolver {
             return { success: true, comment };
         }
         catch (err) {
-            return { success: false, mesasges: [err.message] }
+            return { success: false, messages: [err.message] }
         }
     }
     
@@ -30,9 +30,13 @@ class CommentResolver {
 
     removeComment = async ({id}) => {
         try {
-            const isDeleteSuccessful = await commentService.deleteComment(id);
-            return { success: isDeleteSuccessful, messages: isDeleteSuccessful ? [] : ['Comment with given id does not exist'] };
+            const deletedCommentId = await commentService.deleteComment(id);
+            if (deletedCommentId) {
+                return { success: true, deletedCommentId };
+            }
+            return { success: false, messages: ['Comment with given id does not exist'] };
         }
+            
         catch (err) {
             return { success: false, mesasges: [err.message] }
         }

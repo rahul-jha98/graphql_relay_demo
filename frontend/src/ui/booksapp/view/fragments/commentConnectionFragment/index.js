@@ -5,7 +5,7 @@ import CommentsList from '../commentEdgesFragment';
 
 
 
-export default ({ rootRef, title }) => {
+export default ({ rootRef }) => {
     const {data, hasNext, loadNext, isLoadingNext} = usePaginationFragment(graphql`
         fragment commentConnectionFragment on Query @refetchable(queryName: "CommentsPagintaionQuery")
         @argumentDefinitions(
@@ -13,6 +13,7 @@ export default ({ rootRef, title }) => {
                 after: { type: "String"}
                 user_id: { type: "ID" }
                 book_id: { type: "ID" }
+
                 fetchBookDetail: { type: "Boolean", defaultValue: true }
                 skipUser: { type: "Boolean", defaultValue: true },
                 skipTimestamp: { type: "Boolean", defaultValue: false }
