@@ -3,6 +3,7 @@ import { useQueryLoader } from 'react-relay';
 import Fallback from '../fallback';
 import { useSelectedUserId } from '../store';
 const Profile = lazy(() => import('./main'));
+import Header from './header';
 
 export const profileQuery = graphql`
      query profileDetailsQuery($id: ID!) {
@@ -24,9 +25,10 @@ export default () => {
         setUserId(selectedUserID);
     }, [selectedUserID]);
     
-    return (
+    return (<>
+        <Header />
         <Suspense fallback={<Fallback />}>
             {profileQueryReference && <Profile userid={userId} queryReference={profileQueryReference} />}
         </Suspense>
-    );
+    </>);
 }

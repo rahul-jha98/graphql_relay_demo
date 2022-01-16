@@ -10,6 +10,13 @@ export const authorSkeletopPropsArray = [{variant: "subtitle1"}];
 export const isbnSkeletopPropArray = [{variant: "body2", width: "20%", marginBottom: 2}];
 export const descriptionSkeletonPropArray = [{variant: "button", width: "20%", display:"block"}, {variant: "subtitle2", width: "40%"}]
 
+const skeletonArray = [...nameSkeletonPropsArray,
+    ...authorSkeletopPropsArray, 
+    ...yearSkeletonPropsArray,
+    ...isbnSkeletopPropArray,
+    ...descriptionSkeletonPropArray];
+
+
 export const bookDetailsQuery = graphql`
      query bookDetailQuery($bookId: ID!,  $currentUserId: ID!) {
          node(id: $bookId) {
@@ -34,13 +41,7 @@ export default () => {
     }, [selectedBookId, currentUserId]);
     
     return (
-        <Suspense fallback={<SkeletonFallback propsArray={
-            [...nameSkeletonPropsArray,
-            ...authorSkeletopPropsArray, 
-            ...yearSkeletonPropsArray,
-            ...isbnSkeletopPropArray,
-            ...descriptionSkeletonPropArray]
-        }/>}>
+        <Suspense fallback={<SkeletonFallback propsArray={skeletonArray}/>}>
             {bookQueryReference && <BookDetail queryReference={bookQueryReference}/>}
         </Suspense>
     );

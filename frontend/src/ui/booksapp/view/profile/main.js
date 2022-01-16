@@ -9,7 +9,6 @@ const BooksByUser = lazy(() => import('./BooksByUser'));
 const CommentsByUser = lazy(() => import('./CommentsByUser'));
 
 
-
 export default ({ userid, queryReference }) => {
     if (!queryReference) return null;
     const data = usePreloadedQuery(profileQuery, queryReference);
@@ -26,6 +25,7 @@ export default ({ userid, queryReference }) => {
     
 
     return user && (<div>
+        
         <ProfileDetails user={user} />
         <Suspense fallback={<Fallback />}>
             {user.__typename === 'Author' ? 

@@ -7,7 +7,8 @@ const initialState = {
     selectedUserId: '',
     currentUserId: '',
     selectedBookId: '',
-    userType: ''
+    userType: '',
+    setLoggedInUserId: () => null,
 };
 
 const actions = {
@@ -19,6 +20,11 @@ const actions = {
     },
     setUserType: (userType) => ({ setState }) => {
         setState({ userType })
+    },
+    logoutUser: () => ({getState}) => {
+        const { setLoggedInUserId } = getState();
+        window.sessionStorage.clear();
+        setLoggedInUserId(undefined);
     }
 }
 const store = createStore({
@@ -30,10 +36,11 @@ const store = createStore({
 export const StoreContainer = createContainer(store, {
     onInit:
         () =>
-        ({ setState }, { currentUserId }) => {
+        ({ setState }, { currentUserId, setUserId }) => {
             setState({
                 selectedUserId: currentUserId,
-                currentUserId: currentUserId
+                currentUserId,
+                setLoggedInUserId: setUserId,
             });
         },
     onUpdate:

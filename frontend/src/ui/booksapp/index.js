@@ -7,5 +7,5 @@ export default () => {
     if (!userid) {
         return <LoginPage setUserId={setUserId} />
     }
-    return <View userid={userid} />
+    return <View userid={userid} setUserId={setUserId}/>
 }

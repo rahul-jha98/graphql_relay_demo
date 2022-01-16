@@ -13,10 +13,6 @@ export default ({  queryReference }) => {
     return <>
         <BasicBookDetails bookNodeRef={data.node} />
         
-        {/* <Suspense fallback={null}>
-            <UserBookComment bookNodeRef={data.node} />  
-        </Suspense> */}
-        
         <Suspense fallback={null}>
             <CurrentUsersComments bookNodeRef={data.node} />  
         </Suspense>
