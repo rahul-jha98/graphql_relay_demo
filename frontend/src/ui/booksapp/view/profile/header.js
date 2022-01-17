@@ -26,8 +26,6 @@ export default () => {
                     Logout
                     </Button>
         }
-
-        
     </Stack>
     );
 }

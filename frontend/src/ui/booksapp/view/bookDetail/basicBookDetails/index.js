@@ -62,12 +62,13 @@ export default ({ bookNodeRef }) => {
         }
     `, bookNodeRef);
 
+    if (!book) return null;
     return <>
         <Suspense fallback={<SkeletonFallback propsArray={nameSkeletonPropsArray} />}>
             <Name bookNodeRef={book} />
         </Suspense>
 
-        <Suspense fallback={authorSkeletopPropsArray}>
+        <Suspense fallback={<SkeletonFallback propsArray={authorSkeletopPropsArray} />}>
             <AuthorDetails bookNodeRef={book} />
         </Suspense>
         

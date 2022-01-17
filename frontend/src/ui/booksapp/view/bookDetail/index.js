@@ -24,22 +24,25 @@ export const bookDetailsQuery = graphql`
              ...on Book {
                  ...basicBookDetailsFragment
                  ...usercommentsForBookFragment @arguments(user_id: $currentUserId)
+                 ...EditBookOptionsFragment
              }
          }
          ...commentConnectionFragment @arguments(first: 4, book_id: $bookId, fetchBookDetail: false, skipUser: false) 
      }
-`;
+`;  
 
 export default () => {
     const [bookQueryReference, loadBook] = useQueryLoader(bookDetailsQuery);
     const [selectedBookId] = useSelectedBookId();
     const [currentUserId] = useCurrentUserId();
+
     useEffect(() => {
         if (selectedBookId) {
             loadBook({ bookId: selectedBookId,  currentUserId });
         }
     }, [selectedBookId, currentUserId]);
     
+    if (selectedBookId === '') return null;
     return (
         <Suspense fallback={<SkeletonFallback propsArray={skeletonArray}/>}>
             {bookQueryReference && <BookDetail queryReference={bookQueryReference}/>}

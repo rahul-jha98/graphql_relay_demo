@@ -46,10 +46,11 @@ export default ({ rootRef, title, showButtonForComments }) => {
 
                 <Button onClick={() => refetchList()} startIcon={<CachedIcon />}>Refetch</Button>
             </Stack>
+
             {data.books?.edges?.map((edge) => 
-                <BookItemFragment 
+                { return edge.node && <BookItemFragment 
                     bookNodeRef={edge.node} 
-                    key={edge.node.id} />
+                    key={edge.node.id} />}
             )}
         </Stack>
 

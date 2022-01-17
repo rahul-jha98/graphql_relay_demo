@@ -29,6 +29,11 @@ class BookService {
         return book;
     }
 
+    updateBook = async (id, input) => {
+        const [book] = await bookDAO.updateBook(this.sanitizeId(id), input);
+        return book;
+    }
+
     deleteBook = async (id) => {
         const bookId = this.sanitizeId(id);
         await commentDAO.deleteAllCommentsForBook(bookId);

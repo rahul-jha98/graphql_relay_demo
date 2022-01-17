@@ -29,18 +29,28 @@ class BookResolver {
         return { success: true, book };
     }
 
+    updateBook = async ({ id, input }) => {
+        try {
+            const book = await bookService.updateBook(id, input);
+            return { success: true, book };
+        } catch (err) {
+            return { success: false, messages: [err.message]}
+        }
+        
+    }
+
     removeBook = async ({id}) => {
         try {
             const isDeleteSuccessful = await bookService.deleteBook(id);
-            return { success: isDeleteSuccessful, 
-                messages: isDeleteSuccessful ? [] : ['Book with given id does not exist'], book: { id: id } };
+            if (isDeleteSuccessful) {
+                return { success: true, deletedBookId: id }
+            }
+            throw new Error(`Could not delete book`);
         }
         catch (err) {
-            return { success: false, mesasges: [err.message] }
+            return { success: false, messages: [err.message] }
         }
     }
-
-    
 };
 
  module.exports = new BookResolver();

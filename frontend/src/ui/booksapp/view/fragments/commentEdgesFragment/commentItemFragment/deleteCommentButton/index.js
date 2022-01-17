@@ -29,7 +29,6 @@ export default ({ commentRef }) => {
                     <DeleteIcon sx={{ fontSize: 16 }}/>
                 </IconButton>
             )}
-            
         </DeleteCommentMutationWrapper>
         
     );      

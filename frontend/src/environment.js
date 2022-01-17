@@ -36,6 +36,14 @@ const missingFieldHandlers = [
       if (
         record != null &&
         record.__typename === ROOT_TYPE &&
+        field.name === 'book' &&
+        argValues.hasOwnProperty('id')
+      ) {
+        return argValues.id;
+      }
+      if (
+        record != null &&
+        record.__typename === ROOT_TYPE &&
         field.name === 'comments' &&
         argValues.hasOwnProperty('book_id') &&
         !argValues.hasOwnProperty('user_id')

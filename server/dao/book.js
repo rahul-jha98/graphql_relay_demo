@@ -19,6 +19,7 @@ class BookDAO {
                     queryBuilder.offset(offset);
                 }
             })
+            .orderBy("created_at")
             .select('*');
     }
 
@@ -33,12 +34,14 @@ class BookDAO {
                     queryBuilder.offset(offset);
                 }
             })
+            .orderBy("created_at")
             .select('*');
     }
 
     fetchBooksFromAuthors = (author_ids, pageSize) => {
         const innerQuery = db.from('book')
-                .whereIn('author_id', author_ids).toString();
+                .whereIn('author_id', author_ids)
+                .orderBy("created_at").toString();
         const tableNamePosition = innerQuery.search('book');
         const subquery = innerQuery.slice(tableNamePosition-1);
         return db.select(db.raw(
@@ -64,6 +67,12 @@ class BookDAO {
             .returning('*');
     }
 
+    updateBook = (id, { year, isbn, description }) => {
+        return db('book')
+            .update({ year, isbn, description })
+            .where({ id })
+            .returning('*');
+    }
     deleteBook = (id) => {
         return db('book')
             .del()

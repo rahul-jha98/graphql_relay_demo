@@ -21,6 +21,8 @@ export default ({ bookNodeRef }) => {
         }
     `, bookNodeRef);
 
+    if (!data) return null;
+    
     if (data?.comments?.edges?.every((edge) => edge.node === null)) {
         return <AddCommentOption userCommentConnectionId={data?.comments?.__id} bookId={data.id} />
     }
