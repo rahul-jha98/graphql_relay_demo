@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { useQueryLoader } from 'react-relay';
 import SkeletonFallback from './fallback';
-import { useCurrentUserId, useSelectedBookId } from '../store';
+import { useCurrentUserId, useSelectedBookId, useUserType } from '../store';
 const BookDetail = lazy(() => import('./main'));
 
 export const nameSkeletonPropsArray = [{variant: "h5", width: "40%"}];
@@ -18,14 +18,12 @@ const skeletonArray = [...nameSkeletonPropsArray,
 
 
 export const bookDetailsQuery = graphql`
-     query bookDetailQuery($bookId: ID!,  $currentUserId: ID!) {
-         node(id: $bookId) {
-             id
-             ...on Book {
-                 ...basicBookDetailsFragment
-                 ...usercommentsForBookFragment @arguments(user_id: $currentUserId)
-                 ...EditBookOptionsFragment
-             }
+     query bookDetailQuery($bookId: ID!,  $currentUserId: ID!, $isAuthor: Boolean!) {
+         book(id: $bookId) {
+            id
+            ...basicBookDetailsFragment
+            ...usercommentsForBookFragment @arguments(user_id: $currentUserId) @skip(if: $isAuthor)
+            ...EditBookOptionsFragment @include(if: $isAuthor)
          }
          ...commentConnectionFragment @arguments(first: 4, book_id: $bookId, fetchBookDetail: false, skipUser: false) 
      }
@@ -35,12 +33,14 @@ export default () => {
     const [bookQueryReference, loadBook] = useQueryLoader(bookDetailsQuery);
     const [selectedBookId] = useSelectedBookId();
     const [currentUserId] = useCurrentUserId();
+    const [userType] = useUserType();
+
 
     useEffect(() => {
         if (selectedBookId) {
-            loadBook({ bookId: selectedBookId,  currentUserId });
+            loadBook({ bookId: selectedBookId,  currentUserId, isAuthor: userType === 'Author' });
         }
-    }, [selectedBookId, currentUserId]);
+    }, [selectedBookId, currentUserId, userType]);
     
     if (selectedBookId === '') return null;
     return (

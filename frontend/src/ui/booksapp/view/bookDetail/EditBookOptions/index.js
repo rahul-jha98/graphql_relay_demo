@@ -6,7 +6,7 @@ import { useCurrentUserId } from '../../store';
 import { useFragment, graphql } from 'react-relay';
 import DeleteBookMutationWrapper from './deleteBookMutationWrapper';
 import UpdateBookModal from './updateBookModal';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 
 export default ({ bookNodeRef }) => {
     const book = useFragment(graphql`
@@ -30,7 +30,10 @@ export default ({ bookNodeRef }) => {
             <EditIcon sx={{ fontSize: 18 }}/>
         </IconButton>
 
-        {showUpdateModal && <UpdateBookModal closeModal={() => setShowUpdateModal(false)} bookId={book.id}/>}
+        <Suspense fallback={null}>
+            {showUpdateModal && <UpdateBookModal closeModal={() => setShowUpdateModal(false)} bookId={book.id}/>}
+        </Suspense>
+        
 
         <DeleteBookMutationWrapper bookId={book.id}>
             {(showDeleteModal) => 

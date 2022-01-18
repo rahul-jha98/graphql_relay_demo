@@ -14,12 +14,12 @@ export default ({  queryReference }) => {
     const [userType] = useUserType();
     
     return <>
-        <BasicBookDetails bookNodeRef={data.node} />
+        <BasicBookDetails bookNodeRef={data.book} />
         
         {userType === 'Author' ? 
-            <EditBookOptions bookNodeRef={data.node}/> :
+            <EditBookOptions bookNodeRef={data.book}/> :
             <Suspense fallback={null}>
-                <CurrentUsersComments bookNodeRef={data.node} />  
+                <CurrentUsersComments bookNodeRef={data.book} />  
             </Suspense>
         }
        

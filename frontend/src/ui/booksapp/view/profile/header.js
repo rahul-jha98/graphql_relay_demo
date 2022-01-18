@@ -5,15 +5,21 @@ import { useSelectedUserId, useCurrentUserId } from '../store';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import FindProfileModal from './FindProfileModal';
 
 export default () => {
     const [selectedUserID, { setSelectedUserId }] = useSelectedUserId();
     const [currentUserID, { logoutUser }] = useCurrentUserId();
 
     return (<Stack direction="row" justifyContent="space-between" marginRight={15}>
-
-        <Button startIcon={<PersonSearchIcon />}>Search User</Button>
-
+        <FindProfileModal>
+            {(openModal) => {
+            
+                return <Button startIcon={<PersonSearchIcon />} onClick={openModal}>Search User</Button>;
+            
+            }}
+        </FindProfileModal>
+    
         {selectedUserID !== currentUserID ? 
             <Button 
                 onClick={() => setSelectedUserId(currentUserID)}
