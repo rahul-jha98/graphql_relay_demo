@@ -10,6 +10,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Stack from '@mui/material/Stack';
 import { useMutation, graphql, ConnectionHandler } from "react-relay";
 import Banner from './banner';
+import { ROOT_ID } from 'relay-runtime';
 
 const AddBookMutation = graphql`
   mutation addBookModalMutation($name: String!, $description: String!, $year: Int!, $isbn: String!, $authorId: ID!, $connections: [ID!]!) {
@@ -40,8 +41,8 @@ export default function AddBookDialog({ closeModal }) {
         const { name, description, year, isbn} = data;
 
         const authorId = window.sessionStorage.getItem('userid');
-        const allBooksConnectionId = ConnectionHandler.getConnectionID("root", "PaginatedList_books");
-        const booksByAuthorConnectionId = ConnectionHandler.getConnectionID("root",
+        const allBooksConnectionId = ConnectionHandler.getConnectionID(ROOT_ID, "PaginatedList_books");
+        const booksByAuthorConnectionId = ConnectionHandler.getConnectionID(ROOT_ID,
                                                                              "PaginatedList_books", 
                                                                              { author_id: authorId });
         
