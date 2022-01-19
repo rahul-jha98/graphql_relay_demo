@@ -26,7 +26,7 @@ const AddUserMutation = graphql`
   }
 `;
 
-export default ({ showLogin }) => {
+export default ({ showLogin, onSuccess }) => {
     const { register, handleSubmit } = useForm();
 
     const [commitMutation, isInFlight] = useMutation(AddUserMutation);

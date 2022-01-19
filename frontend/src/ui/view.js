@@ -24,6 +24,10 @@ export default () => {
                 <Link to="/bookapp" style={{ textDecoration: 'none' }}>
                     <Button color="secondary" variant="outlined">Book App</Button>
                 </Link>
+
+                <Link to="/bookapplazy" style={{ textDecoration: 'none' }}>
+                    <Button color="secondary" variant="outlined">Book App - Fetch on Render</Button>
+                </Link>
             </Stack>
             
         </Box>
