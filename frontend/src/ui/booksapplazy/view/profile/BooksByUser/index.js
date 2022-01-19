@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import Fallback from '../../fallback';
 import { Button, Stack, Typography } from "@mui/material";
-import { usePreloadedQuery, graphql } from 'react-relay';
+import { useLazyLoadQuery, graphql } from 'react-relay';
 import BooksList from '../../fragments/bookConnectionFragment';
 import { useCurrentUserId, useSelectedUserId } from "../../store";
 import AddBookDialog from "./addBookModal";
