@@ -4,8 +4,9 @@ import { ErrorBoundary } from 'react-error-boundary';
 
 import './App.css';
 import MainUI from './ui';
+import FallbackPage from './FallbackPage';
 
-const AppIsOnlineQuery = graphql`
+export const AppIsOnlineQuery = graphql`
   query AppIsOnlineQuery {
     isOnline
   }
@@ -16,13 +17,13 @@ const App = () => {
 
   useEffect(() => {
     load();
-  }, [load]);
+  }, []);
 
   if (isOnlineQueryRef === null) return null; 
   return (
     <div className="App">
-      <ErrorBoundary fallback={<h1>Something went wrong</h1>}>
-        <Suspense fallback={<h1>Loading</h1>}>
+      <ErrorBoundary fallback={<FallbackPage isErrorMode={true} />}>
+        <Suspense fallback={<FallbackPage />}>
           <MainUI isOnlineQueryRef={isOnlineQueryRef}/>
         </Suspense>
       </ErrorBoundary>
