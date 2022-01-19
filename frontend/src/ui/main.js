@@ -16,6 +16,7 @@ import Home from './view';
 const SuspenseDemo = React.lazy(() => import('./suspensedemo'));
 const QuerySchedulingDemo = React.lazy(() => import('./queryscheduling'));
 const BooksApp = React.lazy(() => import('./booksapp'));
+const BooksAppLazy = React.lazy(() => import('./booksapplazy'));
 
 const TopAppBar = () => (
     <Box sx={{ flexGrow: 1 }}>
@@ -35,6 +36,7 @@ const ContentArea = () => (
         <Route exact path="/suspensedemo" element={<SuspenseDemo />} />
         <Route path="/querydemo" element={<QuerySchedulingDemo />} />
         <Route path="/bookapp" element={<BooksApp />} />
+        <Route path="/bookapplazy" element={<BooksAppLazy />} />
         <Route exact path="/" element={<Home />}/>
     </Routes>
 );

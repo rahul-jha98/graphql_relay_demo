@@ -13,7 +13,7 @@ import Banner from './banner';
 
 
 const updateBookMutation = graphql`
-    mutation updateBookModalMutation($id: ID!, $updateInput: UpdateBookInput!) @raw_response_type {
+    mutation updateBookModal2Mutation($id: ID!, $updateInput: UpdateBookInput!) @raw_response_type {
         updateBook(id: $id, input: $updateInput) {
             success
             messages
@@ -31,7 +31,7 @@ const updateBookMutation = graphql`
 
 export default ({ closeModal, bookId }) => {
     const data = useLazyLoadQuery(graphql`
-        query updateBookModalQuery($bookId: ID!) {
+        query updateBookModal2Query($bookId: ID!) {
             book(id: $bookId) {
                 id
                 name
@@ -49,7 +49,8 @@ export default ({ closeModal, bookId }) => {
 
     const book = data.book;
     if (!book) return null;
-
+    
+    
 
     const onSubmit = (data) => {
         const { description, year, isbn } = data;
@@ -65,7 +66,6 @@ export default ({ closeModal, bookId }) => {
         const descriptionUpdate = description !== book.description ? { description } : {};
 
         const updates = {...yearUpdate, ...isbnUpdate, ...descriptionUpdate };
-
 
         if (Object.keys(updates).length === 0) {
             setErrorMessage('No field was updated');

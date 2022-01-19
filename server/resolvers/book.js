@@ -25,12 +25,21 @@ class BookResolver {
     }
 
     addBook = async ({name, year, isbn, author, description }) => {
+        const currentYear = new Date().getFullYear();
+        if (year > currentYear) {
+            throw new Error("Year cannot be greater than current year");
+        }
         const book = await bookService.addBook(name, description, year, isbn, author);
         return { success: true, book };
     }
 
     updateBook = async ({ id, input }) => {
         try {
+            const currentYear = new Date().getFullYear();
+            if (input.year && (input.year > currentYear)) {
+                throw new Error("Year cannot be greater than current year");
+            }
+            
             const book = await bookService.updateBook(id, input);
             return { success: true, book };
         } catch (err) {
