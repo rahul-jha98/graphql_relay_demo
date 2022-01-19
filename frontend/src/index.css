@@ -11,3 +11,47 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.MuiGrid-container {
+  max-width: 100%;
+}
+
+.MuiGrid-item {
+  height: 100%;
+  overflow: auto;
+}
+
+
+.MuiGrid-item::-webkit-scrollbar-track {
+	border-radius: 10px;
+	background-color: #FEFEFE;
+}
+
+.MuiGrid-item::-webkit-scrollbar
+{
+	width: 4px;
+	background-color: #FAFAFA;
+}
+
+.MuiGrid-item::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-color: #ccc;
+}
+
+body::-webkit-scrollbar-track {
+	border-radius: 10px;
+	background-color: #FEFEFE;
+}
+
+body::-webkit-scrollbar
+{
+	width: 1px;
+	background-color: #FAFAFA;
+}
+
+body::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	background-color: #ccc;
+}

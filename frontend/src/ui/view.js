@@ -10,26 +10,27 @@ export default () => {
             display="flex"
             justifyContent="center"
             alignItems="center"
-            minHeight="100vh"
         >
-            <Stack direction="row" spacing={10} margin={5}>
-                <Link to="/suspensedemo" style={{ textDecoration: 'none' }}>
-                    <Button color="secondary" variant="outlined">Suspense Demo</Button>
-                </Link>
-
-                <Link to="/querydemo" style={{ textDecoration: 'none' }}>
-                    <Button color="secondary" variant="outlined">Data Fetching Pattern Demo</Button>
-                </Link>
+            <Stack direction="column" spacing={10} marginTop={10} alignItems="center">
 
                 <Link to="/bookapp" style={{ textDecoration: 'none' }}>
-                    <Button color="secondary" variant="outlined">Book App</Button>
+                    <Button variant="contained" classes={{}}>Book App - Fetch with Render</Button>
                 </Link>
 
                 <Link to="/bookapplazy" style={{ textDecoration: 'none' }}>
-                    <Button color="secondary" variant="outlined">Book App - Fetch on Render</Button>
+                    <Button variant="outlined">Book App - Fetch on Render</Button>
                 </Link>
+
+                <Stack direction="row" spacing={10}>
+                    <Link to="/suspensedemo" style={{ textDecoration: 'none' }}>
+                        <Button variant="text">Suspense Demo</Button>
+                    </Link>
+
+                    <Link to="/querydemo" style={{ textDecoration: 'none' }}>
+                        <Button  variant="text">Data Fetching Pattern Demo</Button>
+                    </Link>
+                </Stack>
             </Stack>
-            
         </Box>
     )
 }

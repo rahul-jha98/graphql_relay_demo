@@ -17,7 +17,6 @@ export default ({ isErrorMode } = { isErrorMode: false }) => {
                 <img src={image} height={height}/>
                 <Typography>{message}</Typography>
             </Stack>
-            
         </Box>
     );
 

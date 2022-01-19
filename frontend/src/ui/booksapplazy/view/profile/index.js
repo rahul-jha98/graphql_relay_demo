@@ -35,7 +35,7 @@ const Profile = () => {
     }, [user,  currentUserId, selectedUserID])
     
 
-    return user && (<div>
+    return user && (<div className='scrollablecolumn'>
         <ProfileDetails user={user} />
         <Suspense fallback={<Fallback />}>
             {user.__typename === 'Author' ? 
