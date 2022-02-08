@@ -5,6 +5,14 @@ class CommentService {
         return commentDAO.fetchComments(user_id, book_id);
     }
 
+    getComment = async (commentId) => {
+        const [comment] = await commentDAO.fetchCommentWithId(commentId);
+        if (!comment) {
+            throw new Error(`Comment with id ${id} does not exist`);
+        }
+        return comment;
+    }
+
     commentsFromUserIds = async (user_ids) => commentDAO.fetchAllCommentsFromUserIds(user_ids);
 
     commentsForBookIds = async (book_ids) => commentDAO.fetchAllCommentsForBookIds(book_ids);

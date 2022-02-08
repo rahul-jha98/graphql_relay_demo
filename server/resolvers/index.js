@@ -19,11 +19,32 @@ const isOnlyIdQueried = (info, idFieldValue) => {
     });
 }
 
+const nodeResolver = async (_, { id }) => {
+    try {
+        if (id.length > 15) {
+            try {
+                const node = await bookResolver.getBook({ book_id: id });
+                return node;
+            } catch (err) {
+                const node = await commentResolver.getComment({ comment_id: id });
+                return node;
+            }
+        } else {
+            const node = await userResolver.getUser({ user_id: id});
+            return node;
+        }
+    } catch (err) {
+        throw new Error(`No node with id ${id}`);
+    }
+    
+}
+
 const queryResolvers = {
     Query: {
         isOnline: () => true,
         timer: timerResolver,
 
+        node: nodeResolver,
         // Resolver for Users
         validateUser: (_, args) => userResolver.validateUser(args),
         users: (_, args) => userResolver.getAllUsers(args),
@@ -108,6 +129,18 @@ const queryResolvers = {
             return 'NormalUser';
         } 
     },
+    Node: {
+        __resolveType: (obj) => {
+            if (obj.is_author) {
+                return 'User';
+            } else if (obj.author_id) {
+                return 'Book';
+            } else {
+                return 'Comment';
+            }
+            
+        } 
+    }
 };
 
 const mutationResolvers = {

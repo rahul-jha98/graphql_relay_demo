@@ -48,14 +48,16 @@ type Query {
     isOnline: Boolean
     timer(ms: Int!): Int!
 
+    node(id: ID!): Node
+
     validateUser(user_id: String!, password: String!): Boolean!
     users(searchTerm: String, authorOnly: Boolean): [User!]
     user(user_id: String!): User!
 
     books(author_id: String): [Book!]
-    book(book_id: Int!): Book
+    book(book_id: ID!): Book
     
-    comments(book_id: String, user_id: String): [Comment!]
+    comments(book_id: ID, user_id: ID): [Comment!]
 }
 
 type Mutation {

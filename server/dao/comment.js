@@ -16,6 +16,14 @@ class CommentDAO {
             .select('*');
     }
 
+    fetchCommentWithId = (commentId) => {
+        return db('comment')
+            .where({
+                id: commentId
+            })
+            .select('*');
+    }
+
     fetchAllCommentsFromUserIds = (user_ids) => {
         return db('comment')
             .whereIn('user_id', user_ids)

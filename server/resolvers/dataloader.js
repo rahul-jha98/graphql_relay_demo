@@ -35,6 +35,8 @@ const commentsByUserIds = async (user_ids) => {
 }
 
 const getDataLoaders = () => {
+    console.log();
+    console.log("Initializing data loaders");
     return {
         userDataLoader: new DataLoader(usersByIds), 
         

@@ -15,7 +15,7 @@ app.use(cors());
 
 const PORT = process.env.PORT || 8080;
 
-app.use('/graphql', graphqlHTTP({
+app.use('/graphql', graphqlHTTP(() => ({
     schema,
     graphiql: true,
     customFormatErrorFn: (err) => {
@@ -24,7 +24,7 @@ app.use('/graphql', graphqlHTTP({
     context: {
         dataLoaders: getDataLoaders()
     },
-}));
+})));
 
 app.listen(PORT, () => {
     console.log(`Server listening at port ${PORT}`);

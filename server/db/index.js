@@ -7,7 +7,6 @@ const db = knex(env === 'development' ? knexfile.development : knexfile.producti
 
 if (env === 'development') {
     db.on('query', (data) => {
-        console.log();
         console.log(data.sql, data.bindings);
     });
 }
