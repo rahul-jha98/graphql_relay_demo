@@ -67,7 +67,8 @@ type Book implements Node {
     comments(
         "search comments from a specific user_id"
         user_id: ID, 
-        first: Int): CommentConnection!
+        first: Int,
+        after: String): CommentConnection!
 }
 
 type Comment implements Node {

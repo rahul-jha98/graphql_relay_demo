@@ -32,9 +32,14 @@ class CommentDAO {
             FROM ?) ranked_comment WHERE row_number <= ?`, [db.raw(subquery), pageSize]));
     }
 
-    fetchAllCommentsForBookIds = (book_ids, pageSize) => {
+    fetchAllCommentsForBookIds = (book_ids, pageSize, endcursor) => {
         const innerQuery = db.from('comment')
-                .whereIn('book_id', book_ids).toString();
+                .whereIn('book_id', book_ids)
+                .modify((queryBuilder) => {
+                    if (endcursor) {
+                        queryBuilder.where('created_at', '<', new Date(endcursor).toISOString());
+                    }
+                }).toString();
 
         const tableNamePosition = innerQuery.search('comment');
         const subquery = innerQuery.slice(tableNamePosition - 1);

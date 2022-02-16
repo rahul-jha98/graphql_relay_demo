@@ -35,12 +35,19 @@ const booksByIds = async (book_ids) => {
 }
 
 const commentsByBookIds = async (combined_book_ids) => {
-    const clipPosition = combined_book_ids[0].search('-')
+    const clipPosition = combined_book_ids[0].search('-');
     const pageSize = parseInt(combined_book_ids[0].slice(0, clipPosition));
+    const remainingText = combined_book_ids[0].slice(clipPosition + 1);
 
-    const book_ids = combined_book_ids.map((combined_book_id) => combined_book_id.slice(clipPosition + 1));
+    const afterClipPosition = remainingText.search('-');
+    const afterValue = remainingText.slice(0, afterClipPosition);
+    let after = null;
+    if (afterValue) {
+        after = Buffer.from(afterValue, 'base64').toString('ascii');
+    }
+    const book_ids = combined_book_ids.map((combined_book_id) => combined_book_id.slice(clipPosition + afterClipPosition + 2));
 
-    const comments = await commentService.commentsForBookIds(book_ids, pageSize+1);
+    const comments = await commentService.commentsForBookIds(book_ids, pageSize+1, after);
 
     const commentsGroupedByBookId = groupBy(prop('book_id'), comments);
     return map((book_id) => commentConnectionHandler.getPaginatedList(commentsGroupedByBookId[book_id], 0, pageSize), book_ids);
@@ -59,7 +66,8 @@ const commentsByUserIds = async (combined_user_ids) => {
 }
 
 const getDataLoaders = () => {
-    console.log("Initailizing dataloaders")
+    console.log();
+    console.log("Initailizing dataloaders");
     return {
         userDataLoader: new DataLoader(usersByIds), 
 

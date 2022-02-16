@@ -15,7 +15,7 @@ class CommentService {
 
     commentsFromUserIds = async (user_ids, pageSize) => commentDAO.fetchAllCommentsFromUserIds(user_ids, pageSize);
 
-    commentsForBookIds = async (book_ids, pageSize) => commentDAO.fetchAllCommentsForBookIds(book_ids, pageSize);
+    commentsForBookIds = async (book_ids, pageSize, after) => commentDAO.fetchAllCommentsForBookIds(book_ids, pageSize, after);
 
     addComment = async (user_id, book_id, message) => {
         const [comment] = await commentDAO.insertComment(user_id, this.sanitizeBookId(book_id), message);

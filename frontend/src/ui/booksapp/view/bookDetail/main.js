@@ -1,6 +1,6 @@
 import { usePreloadedQuery, graphql } from 'react-relay';
 import BasicBookDetails from './basicBookDetails';
-import CommentsForBook from '../fragments/commentConnectionFragment';
+import CommentsForBook from './bookcomments';
 import CurrentUsersComments from './usercomments';
 import { bookDetailsQuery } from './index';
 import { Typography } from '@mui/material';
@@ -28,7 +28,7 @@ export default ({  queryReference }) => {
             <Typography  marginTop={4} variant='body1'>
                 All Comments
             </Typography>
-            <CommentsForBook rootRef={data} />  
+            <CommentsForBook bookNodeRef={data.book} />  
         </Suspense>
     </>
 }

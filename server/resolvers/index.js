@@ -77,18 +77,23 @@ const queryResolvers = {
             // return userResolver.getUser({ user_id: book.author_id });
         },
 
-        comments: (book, { user_id, first }, context) => {
+        comments: (book, { user_id, first, after }, context) => {
+            let userId = '';
+            let afterValue = '';
+
             if (user_id) {
-                // Since we know user_id and book_id combination has to be unique in the db
-                // we wil pass max page size here as 1
+                userId = user_id;
+    
                 return commentResolver.getPaginatedComments({ user_id, book_id: book.id, first }, 1);
             }
-            else {
-                const { dataLoaders } = context;
-                const { commentsByBookIdDataLoader } = dataLoaders;
-                const pageSize = first && first <= 5 ? first : 5;
-                return commentsByBookIdDataLoader.load(`${pageSize}-${book.id}`);
+            
+            if(after) {
+                afterValue = after;
             }
+            const { dataLoaders } = context;
+            const { commentsByBookIdDataLoader } = dataLoaders;
+            const pageSize = first && first <= 5 ? first : 5;
+            return commentsByBookIdDataLoader.load(`${pageSize}-${afterValue}-${book.id}`); 
         }
     },
     Author: {
