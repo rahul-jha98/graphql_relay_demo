@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid';
 import Profile from './profile';
 import Books from './books';
-import BookDetail from './bookDetail/async';
+import BookDetail from './bookDetail';
 import {StoreContainer} from './store';
 
 export default ({ userid, setUserId }) => {

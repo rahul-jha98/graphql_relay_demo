@@ -1,9 +1,7 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense} from 'react';
 import Fallback from '../../fallback';
-import Typography from '@mui/material/Typography';
-import { useLazyLoadQuery, graphql } from 'react-relay';
-import CommentsPaginatedList from '../../fragments/commentConnectionFragment';
-
+import { graphql } from 'react-relay';
+const CommentsByUser = lazy(() => import('./main'));
 
 export const commentsByUserConnectionQuery = graphql`
      query CommentsByUseronnection2Query($first: Int!, $userId: ID ) {
@@ -12,20 +10,8 @@ export const commentsByUserConnectionQuery = graphql`
 `;
 
 
-
-
-const CommentsByUser = ({ userId }) => {
-    const data = useLazyLoadQuery(commentsByUserConnectionQuery, { first: 5, userId });
-
-    return <>
-        <Typography>
-            Comments
-        </Typography>
-        <CommentsPaginatedList rootRef={data} />
-    </>
-}
-
-export default ({ userId }) => {   
+export default ({ userId }) => {  
+    if (!userId) return null; 
     return (
         <Suspense fallback={<Fallback />}>
             <CommentsByUser userId={userId} />

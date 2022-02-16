@@ -4,9 +4,8 @@ import ProfileDetails from './profiledetails';
 import Fallback from '../fallback';
 import { profileQuery } from './index';
 import { useCurrentUserId } from '../store';
-
-const BooksByUser = lazy(() => import('./BooksByUser'));
-const CommentsByUser = lazy(() => import('./CommentsByUser'));
+import BooksByUser from './BooksByUser';
+import CommentsByUser from './CommentsByUser';
 
 
 export default ({ userid, queryReference }) => {

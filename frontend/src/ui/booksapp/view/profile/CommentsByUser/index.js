@@ -13,7 +13,9 @@ export default ({ userId }) => {
     const [commentsQueryReference, loadComments] = useQueryLoader(commentsByUserConnectionQuery);
 
     useEffect(() => {
-        loadComments({ first: 5, userId });
+        if (userId) {
+            loadComments({ first: 5, userId });
+        }
     }, [userId]);
     
     return (

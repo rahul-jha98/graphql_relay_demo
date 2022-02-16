@@ -1,12 +1,8 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
-import {  graphql, useLazyLoadQuery } from 'react-relay';
+import { lazy, Suspense } from 'react';
+import {  graphql } from 'react-relay';
 import SkeletonFallback from './fallback';
-import { useCurrentUserId, useSelectedBookId, useUserType } from '../store';
-import BasicBookDetails from './basicBookDetails';
-import CommentsForBook from '../fragments/commentConnectionFragment';
-import CurrentUsersComments from './usercomments';
-import { Typography } from '@mui/material';
-import EditBookOptions from './EditBookOptions';
+import { useSelectedBookId } from '../store';
+const BookDetail = lazy(() => import('./main'));
 
 export const nameSkeletonPropsArray = [{variant: "h5", width: "40%"}];
 export const yearSkeletonPropsArray = [{variant: "caption", marginBottom: 2, display: "block", width: "15%"}];
@@ -28,39 +24,12 @@ export const bookDetailsQuery = graphql`
             ...basicBookDetails2Fragment
             ...usercommentsForBook2Fragment @arguments(user_id: $currentUserId) @skip(if: $isAuthor)
             ...EditBookOptions2Fragment @include(if: $isAuthor)
+            ...bookcomments2ConnectionFragment @arguments(first: 4, fetchBookDetail: false, skipUser: false)
          }
-         ...commentConnectionFragment2Fragment @arguments(first: 4, book_id: $bookId, fetchBookDetail: false, skipUser: false) 
      }
 `;  
 
 
-const BookDetail = () => {
-    const [currentUserId] = useCurrentUserId();
-    const [selectedBookId] = useSelectedBookId();
-    const [userType] = useUserType();
-
-    const data = useLazyLoadQuery(bookDetailsQuery, { bookId: selectedBookId,  currentUserId, isAuthor: userType === 'Author' });
-    
-    
-    return <>
-        <BasicBookDetails bookNodeRef={data.book} />
-        
-        {userType === 'Author' ? 
-            <EditBookOptions bookNodeRef={data.book}/> :
-            <Suspense fallback={null}>
-                <CurrentUsersComments bookNodeRef={data.book} />  
-            </Suspense>
-        }
-       
-
-        <Suspense fallback={null}>
-            <Typography  marginTop={4} variant='body1'>
-                All Comments
-            </Typography>
-            <CommentsForBook rootRef={data} />  
-        </Suspense>
-    </>
-}
 
 
 export default () => {  

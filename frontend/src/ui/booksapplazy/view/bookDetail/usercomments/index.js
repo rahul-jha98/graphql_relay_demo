@@ -10,7 +10,7 @@ export default ({ bookNodeRef }) => {
                 user_id: { type: "ID" }
             )
         {
-            comments(user_id: $user_id, first: 1) @connection(key: "BookCommentsFromUser2_comments"){
+            commentByMe: comments(user_id: $user_id, first: 1) @connection(key: "BookCommentsFromUser2_commentByMe"){
                 __id
                 edges {
                     cursor
@@ -23,13 +23,13 @@ export default ({ bookNodeRef }) => {
 
     if (!data) return null;
     
-    if (data?.comments?.edges?.every((edge) => edge.node === null)) {
-        return <AddCommentOption userCommentConnectionId={data?.comments?.__id} bookId={data.id} />
+    if (data?.commentByMe?.edges?.every((edge) => edge.node === null)) {
+        return <AddCommentOption userCommentConnectionId={data?.commentByMe?.__id} bookId={data.id} />
     }
     return <>
         <Typography variant='body1' marginTop={4}>
             Your Comment
         </Typography>
-        <CommentsList commentConnectionRef={data?.comments} />
+        <CommentsList commentConnectionRef={data?.commentByMe} />
     </>
 }

@@ -5,9 +5,8 @@ import { useSelectedUserId } from '../store';
 import Header from './header';
 import { useCurrentUserId } from '../store';
 import ProfileDetails from './profiledetails';
-
-const BooksByUser = lazy(() => import('./BooksByUser'));
-const CommentsByUser = lazy(() => import('./CommentsByUser'));
+import BooksByUser from './BooksByUser';
+import CommentsByUser from './CommentsByUser';
 
 export const profileQuery = graphql`
      query profileDetails2Query($id: ID!) {

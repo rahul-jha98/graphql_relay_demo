@@ -13,7 +13,9 @@ export default ({ authorId }) => {
     const [booksQueryReference, loadBooks] = useQueryLoader(booksByUserConnectionQuery);
 
     useEffect(() => {
-        loadBooks({ first: 5, authorId });
+        if (authorId) {
+            loadBooks({ first: 5, authorId });
+        }
     }, [authorId]);
     
     return (
