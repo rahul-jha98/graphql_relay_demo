@@ -24,7 +24,7 @@ export const bookDetailsQuery = graphql`
             ...basicBookDetails2Fragment
             ...usercommentsForBook2Fragment @arguments(user_id: $currentUserId) @skip(if: $isAuthor)
             ...EditBookOptions2Fragment @include(if: $isAuthor)
-            ...bookcomments2ConnectionFragment @arguments(first: 4, fetchBookDetail: false, skipUser: false)
+            ...bookcomments2ConnectionFragment @arguments(first: 4)
          }
      }
 `;  

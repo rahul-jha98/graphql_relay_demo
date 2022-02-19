@@ -56,7 +56,7 @@ export default ({ rootRef, title, showButtonForComments }) => {
 
         {hasNext && 
             <LoadingButton 
-                onClick={() => loadNext(2)}
+                onClick={() => loadNext(4)}
                 loading={isLoadingNext}
                 variant="outlined">
                 Load More

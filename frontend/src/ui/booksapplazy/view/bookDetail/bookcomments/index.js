@@ -11,16 +11,12 @@ export default ({ bookNodeRef }) => {
         @argumentDefinitions(
                 first: { type: "Int", defaultValue: 4 }
                 after: { type: "String"}
-
-                fetchBookDetail: { type: "Boolean", defaultValue: true }
-                skipUser: { type: "Boolean", defaultValue: true },
-                skipTimestamp: { type: "Boolean", defaultValue: false }
             ) {
             comments(first: $first, after: $after) @connection(key: "Book2_comments") {
                 edges {
                     cursor
                 }
-                ...commentEdgesFragment2Fragment @arguments(fetchBookDetail: $fetchBookDetail, skipUser: $skipUser, skipTimestamp: $skipTimestamp)
+                ...commentEdgesFragment2Fragment @arguments(fetchBookDetail: false, skipUser: false, skipTimestamp: false)
             }
         }
     `, bookNodeRef);
