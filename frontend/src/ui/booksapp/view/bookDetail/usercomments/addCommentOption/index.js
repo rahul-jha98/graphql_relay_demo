@@ -44,8 +44,9 @@ export default function AddCommentOption ({ userCommentConnectionId, bookId }) {
         }
         setErrorMessage("");
  
-        const bookCommentsConnectionId = ConnectionHandler.getConnectionID(ROOT_ID, "PaginatedList_comments", { book_id: bookId });
+        const bookCommentsConnectionId = ConnectionHandler.getConnectionID(bookId, "Book_comments");
         const allUserCommentsConnectionId = ConnectionHandler.getConnectionID(ROOT_ID, "PaginatedList_comments", { user_id: currentUserId });
+
         commitMutation({
             variables: {
                 message: comment,
